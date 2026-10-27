@@ -1,0 +1,17 @@
+  /* ---------- SUBVIEW HEADER ---------- */
+  .vbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;display:flex;align-items:center;gap:12px;
+    background:var(--bg);padding:8px 0 12px;margin-bottom:16px;border-bottom:1px solid var(--line)}
+  .back{font-family:var(--mono);font-size:12px;text-decoration:none;border:1px solid var(--line-strong);background:var(--panel);color:var(--ink);padding:8px 12px;border-radius:9px;white-space:nowrap}
+  .back:hover{border-color:var(--accent)}
+  .vbar h2{font-size:18px}
+  .vbar .vk{font-family:var(--mono);font-size:11px;color:var(--muted);margin-left:auto}
+
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:15px 16px 17px;box-shadow:var(--shadow);margin-bottom:16px}
+  .card > h3{font-size:14px;display:flex;align-items:center;gap:9px;margin-bottom:12px;font-family:var(--display)}
+  .card > h3 .k{font-family:var(--mono);font-size:11px;color:var(--muted);font-weight:400;margin-left:auto}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start}
+  @media(max-width:760px){.grid2{grid-template-columns:1fr}}
+  .hint{font-size:12px;color:var(--muted);margin:2px 0 12px}
+  .minibtn{font-family:var(--mono);font-size:11px;letter-spacing:.05em;text-transform:uppercase;background:var(--panel-2);border:1px solid var(--line-strong);color:var(--muted);padding:7px 11px;border-radius:8px;cursor:pointer}
+  .minibtn:hover{color:var(--ink);border-color:var(--accent)}
+

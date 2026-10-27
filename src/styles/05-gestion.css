@@ -1,0 +1,19 @@
+  /* ---------- gestión (temas) ---------- */
+  .gitem{border:1px solid var(--line);border-radius:12px;padding:12px 13px;margin-bottom:10px;background:var(--panel-2)}
+  .gitem.done{opacity:.55}
+  .gitem .gtop{display:flex;gap:10px;align-items:flex-start}
+  .gitem .sev{font-family:var(--mono);font-size:9.5px;letter-spacing:.05em;text-transform:uppercase;font-weight:600;padding:3px 7px;border-radius:5px;flex:none;margin-top:1px;white-space:nowrap}
+  .sev.crit{background:var(--crit);color:#fff} .sev.warn{background:color-mix(in srgb,var(--warn) 20%,transparent);color:var(--warn)} .sev.ok{background:color-mix(in srgb,var(--ok) 18%,transparent);color:var(--ok)} .sev.nuevo{background:var(--bs-bg);color:var(--bs-ink)}
+  .gitem .gt{font-size:13.5px;flex:1} .gitem .gt b{font-family:var(--display)} .gitem .gt .s{color:var(--muted);display:block;margin-top:2px;font-size:12.5px}
+  .gitem .gdel{cursor:pointer;color:var(--muted);background:none;border:0;font-size:14px;padding:2px 4px} .gitem .gdel:hover{color:var(--crit)}
+  .gctl{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:10px}
+  .estsel{font-family:var(--mono);font-size:11px;padding:6px 9px;border-radius:8px;border:1px solid var(--line-strong);background:var(--panel);color:var(--ink)}
+  .estsel.st-nuevo{color:var(--muted)} .estsel.st-curso{color:var(--warn);border-color:var(--warn)} .estsel.st-hecho{color:var(--ok);border-color:var(--ok)} .estsel.st-escalado{color:var(--crit);border-color:var(--crit)}
+  .gnote{flex:1;min-width:140px;font-family:var(--body);font-size:12.5px;padding:6px 9px;border-radius:8px;border:1px solid var(--line);background:var(--panel);color:var(--ink)}
+  .gnote:focus{outline:2px solid var(--accent);outline-offset:1px}
+  .gtask{font-family:var(--mono);font-size:10.5px;letter-spacing:.03em;padding:6px 9px;border-radius:8px;border:1px solid var(--line-strong);background:var(--panel);color:var(--muted);cursor:pointer;white-space:nowrap}
+  .gtask:hover{color:var(--ink);border-color:var(--dogos)}
+  .addbar{display:flex;gap:8px;margin-top:6px;flex-wrap:wrap}
+  .addbar input{flex:1;min-width:160px;font-size:13px;padding:8px 10px;border-radius:9px;border:1px solid var(--line-strong);background:var(--panel-2);color:var(--ink)}
+  .addbar input:focus{outline:2px solid var(--accent);outline-offset:1px}
+

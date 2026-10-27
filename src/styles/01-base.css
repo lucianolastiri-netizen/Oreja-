@@ -1,0 +1,45 @@
+  :root{
+    --bg:#eceae4; --panel:#f7f6f2; --panel-2:#ffffff; --ink:#1c1e24; --muted:#5b6068; --line:#d9d6cd; --line-strong:#c3bfb3;
+    --golden:#b8860b; --golden-bg:#f3e6c2; --golden-ink:#6b4e07;
+    --europa:#2f6ca8; --europa-bg:#d8e6f2; --europa-ink:#1c4a75;
+    --bs:#6a5acd; --bs-bg:#e2ddf5; --bs-ink:#453a8f;
+    --dogos:#b4402c; --dogos-bg:#f4d9d1; --dogos-ink:#7d2a1c;
+    --ok:#2e7d51; --warn:#b07d12; --crit:#c0392b; --money:#0f7a5f;
+    --accent:#b4402c;
+    --shadow:0 1px 2px rgba(30,25,20,.06),0 8px 24px rgba(30,25,20,.07);
+    --mono:'IBM Plex Mono',ui-monospace,Menlo,monospace;
+    --body:'IBM Plex Sans',system-ui,-apple-system,sans-serif;
+    --display:'Archivo',var(--body);
+  }
+  :root:not([data-theme="light"]){ @media (prefers-color-scheme:dark){
+    --bg:#14161b; --panel:#1c1f26; --panel-2:#232730; --ink:#eceef2; --muted:#98a0ad; --line:#2c313b; --line-strong:#3a4150;
+    --golden:#e0b64a; --golden-bg:#3a2f14; --golden-ink:#f0d78e;
+    --europa:#5aa0e0; --europa-bg:#132738; --europa-ink:#a9d0f2;
+    --bs:#9b8cf0; --bs-bg:#221d3a; --bs-ink:#cfc6fb;
+    --dogos:#e0705a; --dogos-bg:#361a13; --dogos-ink:#f2b3a4;
+    --ok:#54b784; --warn:#e0b64a; --crit:#e0705a; --money:#4cc196;
+    --accent:#e0705a;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px rgba(0,0,0,.38);
+  }}
+  :root[data-theme="dark"]{
+    --bg:#14161b; --panel:#1c1f26; --panel-2:#232730; --ink:#eceef2; --muted:#98a0ad; --line:#2c313b; --line-strong:#3a4150;
+    --golden:#e0b64a; --golden-bg:#3a2f14; --golden-ink:#f0d78e;
+    --europa:#5aa0e0; --europa-bg:#132738; --europa-ink:#a9d0f2;
+    --bs:#9b8cf0; --bs-bg:#221d3a; --bs-ink:#cfc6fb;
+    --dogos:#e0705a; --dogos-bg:#361a13; --dogos-ink:#f2b3a4;
+    --ok:#54b784; --warn:#e0b64a; --crit:#e0705a; --money:#4cc196;
+    --accent:#e0705a;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px rgba(0,0,0,.38);
+  }
+  *{box-sizing:border-box}
+  body{background:var(--bg);color:var(--ink);font-family:var(--body);line-height:1.45;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1000px;margin:0 auto;padding-block:20px;padding-left:16px;padding-right:16px}
+  a{color:inherit}
+  h1,h2,h3{font-family:var(--display);font-weight:700;margin:0;letter-spacing:-.01em;text-wrap:balance}
+  .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+  .tnum{font-variant-numeric:tabular-nums}
+  input,select,textarea{font-family:var(--body)}
+  .view{display:none} .view.active{display:block;animation:fade .2s ease}
+  @keyframes fade{from{opacity:.4}to{opacity:1}}
+  @media (prefers-reduced-motion:reduce){.view.active{animation:none}}
+

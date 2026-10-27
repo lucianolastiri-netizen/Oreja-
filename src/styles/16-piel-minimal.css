@@ -1,0 +1,38 @@
+  /* ---------- piel minimal (solo tema claro) + inicio liviano + hábitos ---------- */
+  :root{ --bg:#f6f6f3; --panel:#ffffff; --panel-2:#fafaf8; --line:#e6e5e0; --line-strong:#cfcdc6; --accent:#1c1e24; --shadow:none; }
+  .brand .name span{color:inherit}
+  .tile{border-radius:12px;min-height:104px} .tile .ic{display:none} .tile .tn{margin-top:0;font-size:16px}
+  .tile.golden,.tile.money,.tile.temas,.tile.cap,.tile.hoy,.tile.doc,.tile.radar,.tile.inv,.tile.spon,.tile.adm,.tile.poder,.tile.cierre,.tile.hab,.tile.neg{border-top:1px solid var(--line)}
+  .tile.cierre{grid-column:auto;min-height:76px}
+  .tiles.sec .tile{min-height:44px}
+  .card{border-radius:12px}
+  .hsec{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:22px 0 8px}
+  .hagenda{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:4px 16px;text-decoration:none;display:block}
+  .hagenda .row{display:flex;gap:14px;align-items:baseline;padding:11px 0;border-top:1px solid var(--line);font-size:14.5px} .hagenda .row:first-child{border-top:0}
+  .hagenda .hr{font-family:var(--mono);font-size:12px;color:var(--muted);flex:none;width:44px} .hagenda .now{font-weight:600}
+  .hero{margin:12px 0 0;border-radius:12px}
+  .hstrip{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+  .hbtn{font-family:var(--body);font-size:14px;font-weight:500;min-height:44px;padding:0 16px;border-radius:22px;border:1px solid var(--line-strong);background:var(--panel);color:var(--ink);cursor:pointer;display:inline-flex;align-items:center;gap:8px}
+  .hbtn .st{font-family:var(--mono);font-size:11px;color:var(--muted)}
+  .hbtn.on{background:var(--ink);color:var(--bg);border-color:var(--ink)} .hbtn.on .st{color:inherit;opacity:.75}
+  .hbtn:focus-visible{outline:2px solid var(--europa);outline-offset:2px}
+  .hwarn{flex-basis:100%;font-size:13px;color:var(--crit);font-weight:600}
+  .hnum{display:inline-flex;align-items:center;gap:8px;font-size:14px;min-height:44px;padding:0 6px 0 16px;border-radius:22px;border:1px solid var(--line-strong);background:var(--panel)}
+  .hnum input{width:58px;min-height:32px;text-align:right;border:1px solid var(--line);border-radius:8px;padding:0 8px;font-size:14px;background:var(--panel-2);color:var(--ink)}
+  [hidden]{display:none!important}
+  .ngver{display:flex;gap:10px;align-items:center;border-radius:10px;padding:10px 12px;border:1px solid var(--line);background:var(--panel-2);margin:10px 0}
+  .ngver b{font-family:var(--display);font-size:16px} .ngver.pasa{border-color:var(--ok)} .ngver.pasa b{color:var(--ok)} .ngver.nopasa{border-color:var(--crit)} .ngver.nopasa b{color:var(--crit)}
+  .ngver .sc{margin-left:auto;font-family:var(--mono);font-size:18px}
+  .ngcaso{font-size:13px;border:1px dashed var(--line-strong);border-radius:10px;padding:10px 12px;margin:8px 0}
+  .ngcaso .vf{font-family:var(--mono);font-size:10px;text-transform:uppercase;color:var(--warn)}
+  .ngsec{margin-top:12px} .ngsec h4{font-family:var(--display);font-size:14px;margin:0 0 5px}
+  .ngsec textarea{width:100%;min-height:80px;font-family:var(--body);font-size:13.5px;line-height:1.5;padding:9px 10px;border-radius:8px;border:1px solid var(--line-strong);background:var(--panel-2);color:var(--ink);resize:vertical}
+  .ngbusy{font-family:var(--mono);font-size:11px;color:var(--muted)}
+  .tiles .tile .ts{display:none} .tile{min-height:76px;justify-content:space-between}
+  details.mas{margin-top:12px} details.mas>summary{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);cursor:pointer;min-height:44px;display:flex;align-items:center} details.mas .tiles.sec{margin-top:0}
+  .hgrid{display:grid;grid-template-columns:64px repeat(7,minmax(0,1fr)) 30px;gap:6px 3px;align-items:center;font-size:13px}
+  .hgrid .h{font-family:var(--mono);font-size:10px;text-transform:uppercase;color:var(--muted);text-align:center}
+  .hcell{width:100%;max-width:32px;aspect-ratio:1;border-radius:8px;border:1px solid var(--line-strong);background:var(--panel-2);margin:0 auto;display:block;cursor:pointer;padding:0;font-family:var(--mono);font-size:10.5px;color:var(--ink)}
+  .hcell.on{background:var(--ink);border-color:var(--ink);color:var(--bg)} .hcell.hoy{outline:2px solid var(--line-strong);outline-offset:1px}
+  .hgrid .tot{font-family:var(--mono);font-size:12px;text-align:right;white-space:nowrap}
+  .hprem{font-size:14px;border:1px solid var(--line);border-radius:10px;padding:12px 14px;background:var(--panel-2);margin-top:14px} .hprem b.ok{color:var(--ok)}

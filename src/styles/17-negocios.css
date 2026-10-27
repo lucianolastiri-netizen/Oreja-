@@ -1,0 +1,27 @@
+
+  /* negocios · plan con números */
+  .p2dec{border:1px solid var(--line-strong);border-radius:12px;padding:12px 13px;background:var(--panel-2);display:grid;gap:10px;margin:6px 0 4px}
+  .p2dec.prox{border-color:var(--warn)} .p2dec.venc{border-color:var(--crit);background:color-mix(in srgb,var(--crit) 6%,var(--panel-2))}
+  .p2dl{display:flex;flex-direction:column;gap:3px} .p2dl b{font-family:var(--display);font-size:15px;line-height:1.3}
+  .p2dec.venc .p2dl .gm{color:var(--crit);font-weight:600}
+  .ngsec h4 .k{font-family:var(--mono);font-size:10px;font-weight:400;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+  .p2rows{display:flex;flex-direction:column}
+  .p2row{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:4px 14px;padding:8px 0;border-top:1px solid var(--line);font-size:13px;align-items:start}
+  .p2row:first-child{border-top:0} .p2row.ok{opacity:.55} .p2row.ok b{text-decoration:line-through}
+  @media(max-width:600px){.p2row{grid-template-columns:1fr}}
+  .p2a{display:flex;flex-direction:column;gap:2px;min-width:0} .p2a b{font-weight:600;overflow-wrap:anywhere}
+  .p2b{display:flex;flex-wrap:wrap;gap:5px 8px;align-items:baseline;min-width:0}
+  .p2b.p2txt{display:block;color:var(--ink)}
+  .p2v{font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+  .p2o{font-family:var(--mono);font-size:9.5px;letter-spacing:.04em;text-transform:uppercase;padding:2px 6px;border-radius:5px;white-space:nowrap}
+  .p2o.ok{background:color-mix(in srgb,var(--ok) 16%,transparent);color:var(--ok)} .p2o.bs{background:var(--bs-bg);color:var(--bs-ink)}
+  .p2o.warn{background:color-mix(in srgb,var(--warn) 18%,transparent);color:var(--warn)} .p2o.crit{background:color-mix(in srgb,var(--crit) 14%,transparent);color:var(--crit)}
+  .p2lk{font-size:12px;text-decoration:none;border-bottom:1px solid var(--line-strong);white-space:nowrap}
+  .p2in{font-family:var(--body);font-size:13px;padding:6px 8px;border-radius:7px;border:1px solid var(--line-strong);background:var(--panel);color:var(--ink);min-width:0;width:100%;max-width:220px}
+  .p2in.num{max-width:120px;text-align:right;font-variant-numeric:tabular-nums}
+  .p2in.vacio{border-color:var(--warn);background:color-mix(in srgb,var(--warn) 9%,var(--panel))}
+  .p2in:focus{outline:2px solid var(--accent);outline-offset:1px}
+  .pofld .p2in{max-width:none}
+  .p2tab{min-width:640px} .p2tab td{vertical-align:top} .p2tab td .gm{display:block;margin-top:2px}
+  .p2bn{font-size:12.5px;margin-top:6px;line-height:1.45} .p2bn b{font-family:var(--display)}
+  .p2chk{flex-direction:row;gap:9px;align-items:flex-start;cursor:pointer} .p2chk input{margin-top:3px;flex:none}

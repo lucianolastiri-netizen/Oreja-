@@ -1,0 +1,14 @@
+  /* golden · números */
+  .gdchart{overflow-x:auto;margin-top:10px}
+  .gdchart svg{display:block;width:100%;min-width:480px;height:auto}
+  .gdchart text{font-family:var(--mono);font-size:10px;fill:var(--muted)}
+  .gdchart .grid{stroke:var(--line);stroke-width:1}
+  .gdchart .bp{fill:var(--line-strong)} .gdchart .br{fill:var(--golden)}
+  .gdtab{min-width:620px} .gdtab td,.gdtab th{padding:7px 6px} .gdtab td.r,.gdtab th.r{text-align:right;font-variant-numeric:tabular-nums}
+  .gdtab tfoot td{border-top:2px solid var(--ink);font-family:var(--display);font-weight:800}
+  .gdtab .neg{color:var(--crit)}
+  .gdhall li{align-items:flex-start} .gdhall .ht{flex:1;min-width:0} .gdhall .minibtn{flex:none}
+  .gdload>summary{font-family:var(--display);font-weight:700;font-size:14px;cursor:pointer;min-height:32px;display:flex;align-items:center;gap:9px;flex-wrap:wrap} .gdload>summary .k{font-family:var(--mono);font-size:11px;color:var(--muted);font-weight:400} .gdload[open]>summary{margin-bottom:10px}
+  .gdmask .pnum{filter:blur(7px);user-select:none}
+  .gdform{grid-template-columns:repeat(3,minmax(0,1fr))} @media(max-width:700px){.gdform{grid-template-columns:1fr 1fr}} @media(max-width:420px){.gdform{grid-template-columns:1fr}}
+  .gdform .sep{grid-column:1/-1;font-family:var(--display);font-size:13px;text-transform:none;letter-spacing:0;color:var(--ink);margin-top:6px}

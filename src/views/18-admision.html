@@ -1,0 +1,38 @@
+  <!-- ================= ADMISIÓN BS ================= -->
+  <section class="view" id="v-admision">
+    <div class="vbar"><a class="back" href="#home">← Oreja</a><h2>Admisión BS Group</h2><span class="vk" id="ad-k">—</span></div>
+    <div class="privacy"><span class="lock">🔒</span><div id="ad-priv">Conectando tu espacio privado…</div></div>
+    <div class="card" id="ad-locked" hidden><h3>Sección privada</h3><p class="hint">El test de admisión de Oreja es solo del titular.</p></div>
+    <div id="ad-body">
+      <div class="grid2">
+        <div class="card">
+          <h3>El pedido</h3>
+          <div class="form">
+            <input id="ad-ped" type="text" placeholder="Qué te piden (ej. producir la activación de fin de año)">
+            <div class="frow"><input id="ad-quien" type="text" placeholder="Quién lo pide"><input id="ad-fecha" type="text" placeholder="Para cuándo lo quieren"></div>
+            <label class="hint" style="display:flex;gap:8px;align-items:center;margin:0"><input id="ad-urg" type="checkbox"> Entró como urgente</label>
+          </div>
+          <div style="margin-top:12px" id="ad-crits"></div>
+        </div>
+        <div class="card">
+          <div class="verd" id="ad-verd"></div>
+          <h3>Salida</h3>
+          <div class="outs" id="ad-outs"></div>
+          <div class="form">
+            <input id="ad-deleg" type="text" placeholder="¿A quién se lo delegás? (dueño del área)" hidden>
+            <input id="ad-vent" type="text" placeholder="¿A qué ventana lo pasás? (ej. después del 30/11)" hidden>
+            <textarea id="ad-txt" class="draft" rows="5"></textarea>
+          </div>
+          <div class="spact">
+            <button class="minibtn" id="ad-copy" type="button">Copiar texto</button>
+            <button class="minibtn" id="ad-save" type="button">Guardar y llevar a Gestión</button>
+            <button class="minibtn" id="ad-new" type="button">Nuevo pedido</button>
+            <span class="fmsg" id="ad-msg"></span>
+          </div>
+          <p class="spfoot">Pasa con 3 de 5. La urgencia sola nunca alcanza. "Dudoso" no suma. La decisión es tuya; el default es no. El texto es un borrador: lo mandás vos.</p>
+        </div>
+      </div>
+      <div class="card"><h3>Pedidos evaluados <span class="k" id="ad-cnt"></span></h3><div class="adlist" id="ad-list"></div></div>
+    </div>
+  </section>
+

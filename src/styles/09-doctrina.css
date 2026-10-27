@@ -1,0 +1,16 @@
+  /* doctrina */
+  .parea-tabs{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+  .ptab{font-family:var(--mono);font-size:11px;padding:6px 10px;border-radius:20px;border:1px solid var(--line-strong);background:var(--panel-2);color:var(--muted);cursor:pointer}
+  .ptab.on{background:var(--dogos-bg);color:var(--dogos-ink);border-color:var(--dogos)}
+  .princ{border-left:3px solid var(--golden);background:var(--panel-2);border:1px solid var(--line);border-left-width:3px;border-radius:10px;padding:12px 13px;margin-bottom:9px}
+  .princ .pt{font-size:13.5px;line-height:1.45}
+  .princ .pm{display:flex;gap:8px;align-items:center;margin-top:7px;flex-wrap:wrap}
+  .princ .pa{font-family:var(--mono);font-size:11px;color:var(--muted)}
+  .princ .parea{font-family:var(--mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;padding:2px 7px;border-radius:20px;background:var(--dogos-bg);color:var(--dogos-ink)}
+  .princ .del{margin-left:auto}
+  .form{display:flex;flex-direction:column;gap:8px;margin-top:4px}
+  .form textarea,.form input,.form select{font-family:var(--body);font-size:13px;padding:9px 11px;border-radius:9px;border:1px solid var(--line-strong);background:var(--panel-2);color:var(--ink)}
+  .form textarea:focus,.form input:focus,.form select:focus{outline:2px solid var(--dogos);outline-offset:1px}
+  .form .frow{display:flex;gap:8px;flex-wrap:wrap} .form .frow>*{flex:1;min-width:120px}
+  .form .addbtn{font-family:var(--mono);font-size:12px;font-weight:600;background:var(--dogos);color:#fff;border:0;border-radius:9px;padding:10px 14px;cursor:pointer;align-self:flex-start}
+

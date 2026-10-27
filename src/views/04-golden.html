@@ -1,0 +1,23 @@
+  <!-- ================= GOLDEN · NÚMEROS ================= -->
+  <section class="view" id="v-golden">
+    <div class="vbar"><a class="back" href="#home">← Oreja</a><h2>Golden · números</h2><span class="vk" id="gd-k">—</span></div>
+    <div class="privacy"><span class="lock">🔒</span><div id="gd-priv">Conectando tu espacio privado…</div></div>
+    <div class="card" id="gd-locked" hidden><h3>Sección privada</h3><p class="hint">Los números de Golden son solo del titular.</p></div>
+    <div id="gd-body">
+      <div class="card"><h3>La temporada <span class="k" id="gd-temp">—</span> <button class="minibtn" type="button" id="gd-mask">Ocultar montos</button></h3>
+        <p class="hint">El "Resultado fecha" de las planillas resta solo lo que sale de la caja del día. Acá se restan también las compras de cantina que se pagan aparte y los gastos del formulario (sin el retiro de socios, que es reparto, no costo).</p>
+        <div class="pstats" id="gd-kpis"></div>
+        <div class="gdchart" id="gd-chart"></div>
+        <div class="splegend"><span><i style="background:var(--line-strong)"></i>Lo que dice la planilla</span><span><i style="background:var(--golden)"></i>Resultado real aproximado</span></div>
+        <p class="spfoot" id="gd-nota"></p>
+      </div>
+      <div class="card"><h3>Lo que dicen los números <span class="k">hallazgos</span></h3><ul class="obs gdhall" id="gd-hall"></ul></div>
+      <div class="card"><h3>Por fecha <span class="k">millones de pesos</span></h3><div class="tscroll" id="gd-tab"></div></div>
+      <div class="card"><h3>Datos que faltan <span class="k">completalos y el resultado se ajusta</span></h3><div class="pofld" id="gd-falt"></div><div class="gfoot"><button class="btn" type="button" id="gd-falt-save">Guardar</button><span class="fmsg" id="gd-falt-msg"></span></div></div>
+      <details class="card gdload"><summary>Cargar o corregir una fecha <span class="k">planilla GENERAL + planilla de cantina</span></summary>
+        <p class="hint">Copiá los totales de la hoja GENERAL de la fecha y de la planilla de cantina. Acepta números con puntos, comas o signo $. Si elegís una fecha ya cargada, la corregís.</p>
+        <div class="pofld gdform" id="gd-form"></div>
+        <div class="gfoot"><button class="btn" type="button" id="gd-save">Guardar fecha</button><span class="fmsg" id="gd-msg"></span></div></details>
+    </div>
+  </section>
+

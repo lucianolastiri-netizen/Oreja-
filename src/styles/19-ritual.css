@@ -1,0 +1,27 @@
+  /* ritual del día */
+  .rit{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:18px 18px 16px;margin-top:14px;display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 20px;align-items:center}
+  @media(max-width:560px){.rit{gap:4px 14px;padding:16px 14px 14px} .ritring,.ritring svg{width:84px;height:84px} .ritring .rn{font-size:22px} .rithead h2{font-size:20px} .ritstep .go{display:none} .ritdots{gap:4px} .ritdots i{width:11px;height:11px}}
+  .ritring{position:relative;width:112px;height:112px;flex:none}
+  .ritring svg{display:block;width:112px;height:112px}
+  .ritring .rt{fill:none;stroke:var(--line);stroke-width:10} .ritring .rf{fill:none;stroke:var(--ink);stroke-width:10;stroke-linecap:round;transition:stroke-dashoffset .5s ease}
+  .ritring.full .rf{stroke:var(--ok)}
+  .ritring .rn{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:var(--display);font-weight:800;font-size:28px;line-height:1;font-variant-numeric:tabular-nums}
+  .ritring .rn small{font-family:var(--mono);font-size:10px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-top:4px}
+  .rithead{display:flex;flex-direction:column;gap:6px;min-width:0}
+  .rithead h2{font-family:var(--display);font-size:24px;font-weight:800;letter-spacing:-.02em;line-height:1.1}
+  .ritmeta{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13px;color:var(--muted)} .ritmeta b{color:var(--ink);font-variant-numeric:tabular-nums}
+  .ritdots{display:flex;gap:5px;flex-wrap:wrap;margin-top:2px}
+  .ritdots i{width:14px;height:14px;border-radius:4px;border:1px solid var(--line-strong);background:transparent;display:block}
+  .ritdots i.h{background:color-mix(in srgb,var(--ok) 35%,transparent);border-color:var(--ok)} .ritdots i.f{background:var(--ok);border-color:var(--ok)}
+  .ritdots i.dom{opacity:.35} .ritdots i.hoy{outline:2px solid var(--ink);outline-offset:1px}
+  .ritsteps{grid-column:1/-1;display:grid;gap:8px;margin-top:12px}
+  .ritstep{display:grid;grid-template-columns:28px minmax(0,1fr) auto;gap:4px 12px;align-items:center;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:var(--panel-2);text-decoration:none;color:inherit}
+  a.ritstep:hover{border-color:var(--ink)} a.ritstep:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+  .ritstep .ck{width:24px;height:24px;border-radius:50%;border:2px solid var(--line-strong);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:transparent}
+  .ritstep.ok .ck{background:var(--ok);border-color:var(--ok);color:#fff}
+  .ritstep .sx{min-width:0} .ritstep .sx b{display:block;font-family:var(--display);font-size:15px} .ritstep .sx span{display:block;font-size:12.5px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .ritstep.ok .sx b{color:var(--muted)}
+  .ritstep .go{font-family:var(--mono);font-size:11px;color:var(--muted);white-space:nowrap}
+  .ritstep .hstrip{grid-column:2/-1;margin-top:6px}
+  .ritmsg{grid-column:1/-1;font-size:13px;margin-top:4px;color:var(--muted)} .ritmsg b{color:var(--ink)}
+  @media (prefers-reduced-motion:reduce){.ritring .rf{transition:none}}

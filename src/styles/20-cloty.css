@@ -1,0 +1,20 @@
+  /* área cloty */
+  .clo{background:var(--ink);color:var(--bg);border-radius:16px;padding:18px 18px 16px;margin-top:14px;display:grid;gap:12px}
+  .clohead{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px}
+  .clohead h2{font-family:var(--display);font-size:22px;font-weight:800;letter-spacing:-.02em}
+  .clohead .k{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;opacity:.7;margin-left:auto}
+  .clotabs{display:flex;gap:6px;flex-wrap:wrap}
+  .clotab{font-family:var(--mono);font-size:11.5px;letter-spacing:.04em;padding:8px 12px;min-height:36px;border-radius:20px;border:1px solid color-mix(in srgb,var(--bg) 35%,transparent);background:transparent;color:inherit;cursor:pointer}
+  .clotab.on{background:var(--bg);color:var(--ink);border-color:var(--bg)} .clotab:focus-visible{outline:2px solid var(--golden);outline-offset:2px}
+  .clotab .n{opacity:.7;margin-left:5px}
+  .clopane{background:var(--panel);color:var(--ink);border-radius:12px;padding:14px 15px;display:grid;gap:10px;min-width:0}
+  .clopane h3{font-family:var(--display);font-size:17px;line-height:1.25}
+  .clopane .lbl{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+  .clopane p{margin:0;font-size:14px;line-height:1.55;max-width:68ch}
+  .cloprompt{font-family:var(--mono);font-size:12.5px;line-height:1.5;white-space:pre-wrap;background:var(--panel-2);border:1px solid var(--line);border-radius:10px;padding:10px 12px;overflow-wrap:anywhere}
+  .clorow{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+  .cloitem{display:grid;gap:3px;padding:9px 0;border-top:1px solid var(--line)} .cloitem:first-child{border-top:0;padding-top:0}
+  .cloitem b{font-family:var(--display);font-size:14px} .cloitem span{font-size:13px;color:var(--muted)} .cloitem a{color:inherit}
+  .clobtn{font-family:var(--mono);font-size:11px;letter-spacing:.04em;text-transform:uppercase;padding:8px 12px;border-radius:8px;border:1px solid var(--line-strong);background:var(--panel-2);color:var(--ink);cursor:pointer}
+  .clobtn.on{background:var(--ok);border-color:var(--ok);color:#fff}
+  .clobtn:focus-visible{outline:2px solid var(--ink);outline-offset:2px}

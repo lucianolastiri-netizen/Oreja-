@@ -1,0 +1,34 @@
+  <!-- ================= INVERSIONES ================= -->
+  <section class="view" id="v-inversiones">
+    <div class="vbar"><a class="back" href="#home">← Oreja</a><h2>Inversiones</h2><button class="minibtn" id="inv-hide" type="button" style="margin-left:auto">Ocultar montos</button></div>
+    <div class="privacy"><span class="lock">🔒</span><div id="inv-priv">Conectando tu espacio privado…</div></div>
+    <div class="card" id="inv-locked" hidden><h3>Sección privada</h3><p class="hint">Las inversiones de Oreja son solo del titular.</p></div>
+    <div id="inv-body">
+      <div class="card"><h3>Foto de la cartera <span class="k" id="inv-tcinfo"></span></h3>
+        <div class="pstats">
+          <div class="pstat acc"><div class="l">Total en dólares</div><div class="v tnum pnum" id="iv-usd">—</div><div class="s pnum" id="iv-usd-s"></div></div>
+          <div class="pstat"><div class="l">Total en pesos</div><div class="v tnum pnum" id="iv-ars">—</div><div class="s" id="iv-ars-s"></div></div>
+          <div class="pstat"><div class="l">Dolarizado</div><div class="v tnum" id="iv-dol">—</div><div class="s" id="iv-dol-s"></div></div>
+          <div class="pstat"><div class="l">Disponible en 7 días</div><div class="v tnum" id="iv-liq">—</div><div class="s" id="iv-liq-s"></div></div>
+        </div>
+        <div class="metas">
+          <label>Dólar MEP de referencia <span class="u">$</span><input class="amt tnum" id="inv-tc" inputmode="decimal" placeholder="cargalo"></label>
+          <label>Fecha <input class="amt" id="inv-tcf" type="date" style="width:140px"></label>
+        </div>
+      </div>
+      <div class="card"><h3>Posiciones <span class="k" id="inv-count"></span></h3>
+        <p class="hint">Una línea por instrumento con su <b>valor actual</b>. En pesos, cargá la tasa nominal anual (TNA) para medirla contra la inflación. Actualizá los valores al cierre de cada mes.</p>
+        <div class="tscroll"><table class="itab"><thead><tr><th>Instrumento</th><th>Tipo</th><th>Moneda</th><th class="r">Valor actual</th><th class="r">TNA %</th><th>Liquidez</th><th>Dónde</th><th></th></tr></thead><tbody id="inv-body-rows"></tbody></table></div>
+        <button class="minibtn" id="inv-add" type="button" style="margin-top:10px">+ Posición</button>
+      </div>
+      <div class="card"><h3>Operaciones <span class="k" id="inv-ops-k"></span></h3>
+        <p class="hint">Lo que Cloty detecta en los mails de tu broker, banco o billetera entra <b>por confirmar</b>. Al confirmar, actualizá la posición que corresponde.</p>
+        <div id="inv-ops"></div>
+      </div>
+      <div class="card"><h3>Lo que veo <span class="k">lecturas</span></h3>
+        <ul class="obs" id="inv-obs"></ul>
+        <p class="caveat">No soy asesor financiero matriculado: son lecturas de tus números (rendimiento real, moneda, liquidez, concentración) para que decidas vos. No te voy a decir qué comprar ni qué vender.</p>
+      </div>
+    </div>
+  </section>
+

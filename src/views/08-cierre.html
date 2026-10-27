@@ -1,0 +1,35 @@
+  <!-- ================= CIERRE DEL DÍA ================= -->
+  <section class="view" id="v-cierre">
+    <div class="vbar"><a class="back" href="#home">← Oreja</a><h2>Cierre del día</h2><span class="vk" id="c-fecha">—</span></div>
+    <div class="privacy"><span class="lock">🔒</span><div id="c-priv">Conectando tu espacio privado…</div></div>
+    <div class="card" id="c-locked" hidden><h3>Sección privada</h3><p class="hint">El cierre de Oreja es solo del titular. Esta vista no lo muestra.</p></div>
+    <div id="c-body">
+      <div class="card"><h3>El día en números <span class="k" id="c-act"></span></h3>
+        <div class="ckpis">
+          <div class="ckpi" id="ck-cer"><div class="l">Cerradas hoy</div><div class="v">—</div></div>
+          <div class="ckpi" id="ck-ven"><div class="l">Vencidas</div><div class="v">—</div></div>
+          <div class="ckpi" id="ck-dec"><div class="l">Decisiones pendientes</div><div class="v">—</div></div>
+          <div class="ckpi" id="ck-abi"><div class="l">Abiertas en total</div><div class="v">—</div></div>
+        </div>
+        <div class="cverd" id="c-alerta" hidden></div>
+      </div>
+      <div class="card"><h3>Por frente <span class="k">tareas de ClickUp</span></h3>
+        <div class="tscroll"><div class="cfr" id="c-frentes"></div></div>
+        <p class="pnote"><b>Jerarquía:</b> Golden, Europa, BS Group, Dogos. Si Dogos pesa casi como Golden y Europa casi no aparece, la agenda cuenta otra historia que la que querés.</p>
+      </div>
+      <div class="card"><h3>Decisiones pendientes <span class="k">movidas 2 veces o más</span></h3>
+        <p class="hint">El barrido de la mañana ya no les cambia la fecha. Falta decidir: seguir con otro dueño, achicar el alcance o cerrarla.</p>
+        <ul class="clist" id="c-dec"></ul>
+      </div>
+      <div class="grid2">
+        <div class="card"><h3>Lo que hiciste <span class="k">cerrado en ClickUp</span></h3><ul class="clist" id="c-hechas"></ul></div>
+        <div class="card"><h3>Vencidas que más pesan</h3><ul class="clist" id="c-venc"></ul></div>
+      </div>
+      <div class="card"><h3>Últimos 14 cierres</h3>
+        <div class="ctrend" id="c-trend"></div>
+        <div class="clegend"><span><i style="background:var(--ok)"></i>cerradas</span><span><i style="background:var(--crit)"></i>vencidas</span></div>
+        <p class="hint" style="margin-top:8px">Lo bueno es el verde subiendo y el rojo bajando. Lo actualiza Cloty en el cierre de la tarde; si cerrás algo en ClickUp o me decís "hice X", entra en el cierre de ese día.</p>
+      </div>
+    </div>
+  </section>
+

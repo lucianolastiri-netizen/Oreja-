@@ -1,0 +1,32 @@
+  <!-- ================= NEGOCIOS ================= -->
+  <section class="view" id="v-negocios">
+    <div class="vbar"><a class="back" href="#home">← Oreja</a><h2>Negocios</h2><span class="vk" id="ng-k">—</span></div>
+    <div class="privacy"><span class="lock">🔒</span><div id="ng-priv">Conectando tu espacio privado…</div></div>
+    <div class="card" id="ng-locked" hidden><h3>Sección privada</h3><p class="hint">Los negocios de Oreja son solo del titular.</p></div>
+    <div id="ng-body">
+      <div class="card"><h3>El tablero <span class="k">mide cierre, no ideas</span></h3>
+        <div class="ngmet" id="ng-met"></div>
+        <p class="hint" style="margin:0">Cada idea vive cuatro etapas: <b>generación</b>, <b>filtro</b> (test de 5: pasa con 3; la urgencia sola nunca alcanza), <b>plan</b> (solo si pasó) y <b>decisión</b> (se firma, se descarta o se archiva con fecha). Reglas fijas: cinco "no" descartan sola; archivar pide una fecha real y ese día la idea vuelve; como máximo <b>dos ideas avanzando</b> a la vez.</p>
+      </div>
+      <div class="card"><h3>Nueva idea</h3>
+        <div class="pofld">
+          <label class="full">La idea, en una línea<input type="text" id="ng-t" placeholder="qué es"></label>
+          <label class="full">Detalle<textarea id="ng-d" placeholder="qué se vende, a quién, por qué ahora"></textarea></label>
+          <label>De qué lado cae<select id="ng-lado"><option value="golden">Golden · decidís vos con tus socios</option><option value="bs">BS Group · se la vendés a Nacho y Rodrigo</option><option value="propio">Propio · por fuera de las dos</option></select></label>
+          <label>Qué tan madura<select id="ng-mad"><option value="idea">Solo una idea</option><option value="charlada">Ya la charlé con alguien</option><option value="marcha">Ya hay algo en marcha</option></select></label>
+        </div>
+        <div class="spact"><button class="minibtn" id="ng-add" type="button">+ Sumar idea</button><span class="fmsg" id="ng-add-msg"></span></div>
+      </div>
+      <div class="card" id="ng-motor"><h3>Motor rápido <span class="k">sin tus fuentes</span></h3>
+        <p class="hint">El motor de verdad es mensual: el día 1 Cloty lee tu mail, tu Drive, los documentos del proyecto y nuestras charlas, busca casos reales con fuente y carga una sola idea acá. Este botón es la versión rápida: una idea con lo que Claude sabe, sin leer tus fuentes. Verificá el caso antes de usarlo.</p>
+        <div class="pofld">
+          <label>Para qué lado<select id="ng-m-lado"><option value="ambos">Golden y BS cruzados</option><option value="golden">Golden</option><option value="bs">BS Group</option></select></label>
+          <label>Tema o pista (opcional)<input type="text" id="ng-m-tema" placeholder="ej.: sponsors, Distrito, empresas"></label>
+        </div>
+        <div class="spact"><button class="minibtn" id="ng-gen" type="button">✦ Una idea rápida</button><span class="ngbusy" id="ng-gen-st"></span></div>
+      </div>
+      <div class="gfilt" id="ng-filt"></div>
+      <div id="ng-list"></div>
+    </div>
+  </section>
+

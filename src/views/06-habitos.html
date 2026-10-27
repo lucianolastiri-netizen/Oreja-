@@ -1,0 +1,29 @@
+  <!-- ================= HÁBITOS ================= -->
+  <section class="view" id="v-habitos">
+    <div class="vbar"><a class="back" href="#home">← Oreja</a><h2>Hábitos</h2><span class="vk" id="hb-k">—</span></div>
+    <div class="privacy"><span class="lock">🔒</span><div id="hb-priv">Conectando tu espacio privado…</div></div>
+    <div class="card" id="hb-locked" hidden><h3>Sección privada</h3><p class="hint">Los hábitos de Oreja son solo del titular.</p></div>
+    <div id="hb-body">
+      <div class="card"><h3>Hoy <span class="k" id="hb-hoy-k"></span></h3>
+        <div class="hstrip" id="hb-hoy"></div>
+      </div>
+      <div class="card"><h3>Últimos 7 días <span class="k">tocá un día para corregirlo</span></h3>
+        <div class="tscroll"><div class="hgrid" id="hb-grid"></div></div>
+        <div class="hprem" id="hb-prem"></div>
+      </div>
+      <div class="card"><h3>El incentivo <span class="k">lo definís vos</span></h3>
+        <p class="hint">Un premio concreto por semana cumplida. Si cortás dos días seguidos un hábito central, el inicio te lo marca: ese día no se negocia. No se suman hábitos nuevos para compensar una semana floja.</p>
+        <div class="pofld">
+          <label class="full">Premio de la semana<input type="text" id="hb-premio" placeholder="algo que querés y que solo te das si cumplís"></label>
+          <label>Días por semana para ganarlo<select id="hb-meta"><option value="5">5 de 7</option><option value="6">6 de 7</option><option value="7">7 de 7</option></select></label>
+          <label>Meta de sueño (horas)<input type="text" id="hb-sueno" inputmode="decimal" placeholder="definila vos"></label>
+        </div>
+      </div>
+      <div class="card"><h3>Qué seguís <span class="k" id="hb-def-k"></span></h3>
+        <p class="hint">Los centrales cuentan para la racha y el premio. Los demás se registran sin presión.</p>
+        <ul class="clist" id="hb-defs"></ul>
+        <div class="addbar"><input id="hb-add-in" type="text" placeholder="Sumar un hábito (sí o no por día)…"><button class="minibtn" id="hb-add" type="button">+ Sumar</button></div>
+      </div>
+    </div>
+  </section>
+

@@ -1,0 +1,17 @@
+  /* ---------- lo primero + posición ---------- */
+  .hero{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center;justify-content:space-between;background:var(--ink);color:var(--bg);border-radius:14px;padding:18px 20px;margin-bottom:12px;text-decoration:none;box-shadow:var(--shadow)}
+  .hero .hl{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--golden)}
+  .hero .ht{font-family:var(--display);font-weight:800;font-size:22px;line-height:1.15;margin-top:4px}
+  .hero .hs{font-size:13px;opacity:.8;margin-top:4px}
+  .hero .hb{font-family:var(--mono);font-size:12px;font-weight:600;background:var(--golden);color:#1c1e24;padding:11px 16px;border-radius:9px;white-space:nowrap}
+  .hero>div{flex:1 1 280px;min-width:0}
+  .apline{font-size:13px;color:var(--muted);margin:0 0 16px} .apline b{color:var(--ink)}
+  .tiles.sec{margin-top:12px} .tiles.sec .tile{min-height:0;padding:11px 13px;flex-direction:row;flex-wrap:wrap;align-items:center;gap:6px 9px;border-top-width:1px;box-shadow:none}
+  .tiles.sec .tile .ts{display:none} .tiles.sec .tile .tn{margin-top:0;font-size:14px} .tiles.sec .tile .ic{font-size:15px} .tiles.sec .tile .tp{margin:0 0 0 auto}
+  .tile.poder{border-top:3px solid var(--ink)}
+  .pofld{display:grid;grid-template-columns:1fr 1fr;gap:10px 14px} @media(max-width:640px){.pofld{grid-template-columns:1fr}}
+  .pofld label{display:flex;flex-direction:column;gap:5px;font-family:var(--mono);font-size:10px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+  .pofld .full{grid-column:1/-1}
+  .pofld input,.pofld textarea,.pofld select{font-family:var(--body);font-size:13.5px;text-transform:none;letter-spacing:0;padding:9px 10px;border-radius:8px;border:1px solid var(--line-strong);background:var(--panel-2);color:var(--ink);min-width:0;line-height:1.45}
+  .pofld textarea{min-height:74px;resize:vertical}
+  .pofld input:focus,.pofld textarea:focus,.pofld select:focus{outline:2px solid var(--accent);outline-offset:1px}

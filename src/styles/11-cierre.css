@@ -1,0 +1,21 @@
+  /* cierre del día */
+  .tile.cierre{border-top:3px solid var(--ok);grid-column:1/-1;min-height:0}
+  .ckpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px} @media(max-width:640px){.ckpis{grid-template-columns:1fr 1fr}}
+  .ckpi{border:1px solid var(--line);border-radius:11px;padding:11px 12px;background:var(--panel-2)}
+  .ckpi .l{font-family:var(--mono);font-size:10px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+  .ckpi .v{font-family:var(--display);font-size:26px;font-weight:800;margin-top:4px;font-variant-numeric:tabular-nums;line-height:1}
+  .ckpi.bad .v{color:var(--crit)} .ckpi.good .v{color:var(--ok)}
+  .cverd{font-size:13px;border-left:3px solid var(--golden);background:color-mix(in srgb,var(--golden) 10%,var(--panel-2));padding:10px 12px;border-radius:0 10px 10px 0;margin-top:12px}
+  .cfr{display:grid;grid-template-columns:minmax(110px,1.2fr) 44px 1.6fr 44px 44px;gap:8px 10px;align-items:center;font-size:13px}
+  .cfr .h{font-family:var(--mono);font-size:10px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+  .cfr .r{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-nums}
+  .cfr .nm{display:flex;align-items:center;gap:7px;font-weight:600}
+  .cfr .dot{width:9px;height:9px;border-radius:2px;flex:none}
+  .cfr .trk{height:8px;border-radius:4px;background:var(--line);overflow:hidden} .cfr .trk i{display:block;height:100%;border-radius:4px}
+  .cfr .n0{color:var(--muted)} .cfr .nb{color:var(--crit);font-weight:600} .cfr .ng{color:var(--ok);font-weight:600}
+  .clist{list-style:none;margin:0;padding:0}
+  .clist li{display:flex;gap:10px;align-items:baseline;padding:8px 0;border-top:1px solid var(--line);font-size:13px} .clist li:first-child{border-top:0}
+  .clist .t{flex:1;min-width:0;overflow-wrap:anywhere} .clist .t a{text-decoration:none;border-bottom:1px solid var(--line-strong)}
+  .clist .x{font-family:var(--mono);font-size:10px;letter-spacing:.04em;text-transform:uppercase;white-space:nowrap}
+  .ctrend svg{width:100%;height:auto;display:block}
+  .clegend{display:flex;gap:14px;font-size:11.5px;color:var(--muted);margin-top:6px} .clegend i{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:5px;vertical-align:-1px}

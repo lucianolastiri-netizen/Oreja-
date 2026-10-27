@@ -1,0 +1,66 @@
+  <!-- ================= FINANZAS ================= -->
+  <section class="view" id="v-finanzas">
+    <div class="vbar"><a class="back" href="#home">← Oreja</a><h2>Finanzas</h2><button class="minibtn" id="fin-hide" type="button" style="margin-left:auto">Ocultar montos</button></div>
+    <div class="privacy"><span class="lock">🔒</span><div id="fin-privacy">Conectando tu espacio privado…</div></div>
+    <div class="card" id="fin-locked" hidden><h3>Sección privada</h3><p class="hint">Las finanzas de Oreja son solo del titular. Esta vista no las muestra.</p></div>
+    <div id="fin-body">
+    <div class="card"><h3>Trimestre de mejora <span class="k">01/10 → 31/12/2026</span></h3>
+      <div class="qstrip" id="q-strip"></div>
+      <div class="pstats" style="margin-top:14px">
+        <div class="pstat acc"><div class="l">Tasa de ahorro</div><div class="v tnum pnum" id="k-ahorro">—</div><div class="s pnum" id="k-ahorro-s"></div></div>
+        <div class="pstat"><div class="l">Colchón</div><div class="v tnum pnum" id="k-colchon">—</div><div class="s pnum" id="k-colchon-s"></div></div>
+        <div class="pstat"><div class="l">Gasto sin identificar</div><div class="v tnum pnum" id="k-ciego">—</div><div class="s pnum" id="k-ciego-s"></div></div>
+        <div class="pstat"><div class="l">Egresos vs presupuesto</div><div class="v tnum pnum" id="k-desvio">—</div><div class="s pnum" id="k-desvio-s"></div></div>
+      </div>
+      <p class="pnote"><b>Regla del trimestre:</b> se mide en porcentajes y en meses, no en pesos. Con inflación, "gasté más en diciembre que en octubre" no dice nada; la tasa de ahorro y el colchón, sí.</p>
+    </div>
+    <div class="card"><h3>Seguimiento mensual <span class="k">el real, al cierre de cada mes</span></h3>
+      <div class="tscroll"><table class="mtab"><thead><tr><th>Mes</th><th class="r">Ingresos</th><th class="r">Egresos</th><th class="r">Superávit</th><th class="r">Ahorro</th><th class="r">Disponible</th></tr></thead><tbody id="m-body"></tbody></table></div>
+      <div class="metas">
+        <label>Meta de ahorro <span class="u">%</span><input class="amt tnum" id="meta-ahorro" inputmode="decimal" placeholder="definila"></label>
+        <label>Meta de colchón <span class="u">meses</span><input class="amt tnum" id="meta-colchon" inputmode="decimal" placeholder="definila"></label>
+        <label>Inflación mensual supuesta <span class="u">%</span><input class="amt tnum" id="meta-infl" inputmode="decimal" placeholder="cargala"></label>
+      </div>
+    </div>
+    <div class="card"><h3>Movimientos <span class="k" id="mv-k"></span></h3>
+      <p class="hint">Lo que Cloty detecta en tu mail entra <b>por confirmar</b>. Lo que dictás en Captura entra confirmado. Vos corregís la categoría y confirmás; al cierre del mes, lo confirmado pasa al seguimiento.</p>
+      <div class="gfilt" id="mv-meses"></div>
+      <div class="mvsum" id="mv-sum"></div>
+      <div id="mv-list"></div>
+      <div class="mvadd">
+        <input type="date" id="mv-f"><input type="text" id="mv-d" placeholder="Concepto"><input type="text" id="mv-m" inputmode="numeric" placeholder="Monto">
+        <select id="mv-t"><option value="egreso">Egreso</option><option value="ingreso">Ingreso</option></select>
+        <button class="minibtn" id="mv-add" type="button">+ Sumar</button>
+      </div>
+      <div class="gfoot"><button class="minibtn" id="mv-pasar" type="button">Pasar lo confirmado al seguimiento</button></div>
+    </div>
+    <div class="card"><h3>Palancas <span class="k" id="pal-count"></span></h3>
+      <p class="hint">Cambios concretos del trimestre. Cada una termina en <b>Hecho</b> o <b>Descartado</b>, con su impacto mensual estimado.</p>
+      <div class="palsum" id="pal-sum"></div>
+      <div id="pal-list"></div>
+      <div class="addbar"><input id="pal-add-input" type="text" placeholder="Sumá una palanca…"><button class="minibtn" id="pal-add-btn" type="button">+ Sumar</button></div>
+    </div>
+    <div class="grid2">
+      <div>
+        <div class="card"><h3>Presupuesto base · egresos <span class="k" id="egr-count"></span></h3><p class="hint">Es la línea base del trimestre. Editá los montos: todo recalcula.</p>
+          <table><thead><tr><th>Concepto</th><th class="r">Monto</th><th class="r">%</th></tr></thead><tbody id="egr-body"></tbody>
+          <tfoot><tr class="totrow"><td>TOTAL EGRESOS</td><td class="r tnum pnum" id="egr-total"></td><td class="r pct">100%</td></tr></tfoot></table></div>
+        <div class="card"><h3>Ingresos <span class="k">por fuente</span></h3>
+          <table><thead><tr><th>Fuente</th><th class="r">Monto</th><th></th></tr></thead><tbody id="ing-body"></tbody>
+          <tfoot><tr class="totrow"><td>TOTAL INGRESOS</td><td class="r tnum pnum" id="ing-total"></td><td></td></tr></tfoot></table>
+          <button class="minibtn" id="add-ing" type="button" style="margin-top:10px">+ Fuente</button></div>
+      </div>
+      <div>
+        <div class="card"><h3>Saldos de cuentas <span class="k">manual</span></h3><p class="hint">No hay conexión bancaria. Sin saldos cargados no se puede medir el colchón.</p>
+          <table><thead><tr><th>Cuenta</th><th class="r">Saldo</th><th></th></tr></thead><tbody id="cta-body"></tbody>
+          <tfoot><tr class="totrow"><td>DISPONIBLE</td><td class="r tnum pnum" id="cta-total"></td><td></td></tr></tfoot></table>
+          <button class="minibtn" id="add-cta" type="button" style="margin-top:10px">+ Cuenta</button></div>
+        <div class="card"><h3>A dónde va la plata <span class="k">por grupo</span></h3><div class="bars pnum" id="bars"></div></div>
+        <div class="card"><h3>Lo que veo <span class="k">observaciones</span></h3>
+          <ul class="obs" id="obs"></ul>
+          <p class="caveat">No soy tu asesor financiero: son lecturas de tus números para que decidas vos.</p></div>
+      </div>
+    </div>
+    </div>
+  </section>
+

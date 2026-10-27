@@ -1,0 +1,7 @@
+  /* proyectos */
+  .pjfoco{display:grid;grid-template-columns:repeat(3,1fr);gap:10px} @media(max-width:680px){.pjfoco{grid-template-columns:1fr}}
+  .pjfoco .pstat{cursor:pointer;text-align:left;font:inherit;color:inherit} .pjfoco .pstat.vacio{border-style:dashed;cursor:default}
+  .pjfoco .pstat .v{font-size:15px;line-height:1.25}
+  .pjwarn{font-size:13px;border-left:3px solid var(--warn);background:color-mix(in srgb,var(--warn) 10%,var(--panel-2));padding:10px 12px;border-radius:0 10px 10px 0;margin-top:12px}
+  .pjtemas{margin-top:10px} .pjtemas a{display:flex;gap:10px;font-size:12.5px;padding:5px 0;border-top:1px solid var(--line);text-decoration:none} .pjtemas a:first-child{border-top:0}
+  .pjtemas .x{font-family:var(--mono);font-size:10.5px;color:var(--muted);flex:none;margin-left:auto;white-space:nowrap} .pjtemas .x.crit{color:var(--crit)}

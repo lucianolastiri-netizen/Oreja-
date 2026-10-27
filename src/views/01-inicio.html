@@ -1,0 +1,78 @@
+  <!-- ================= HOME ================= -->
+  <section class="view" id="v-home">
+    <div class="brand">
+      <div>
+        <div class="eyebrow">Jefe de gabinete · Cloty</div>
+        <div class="name">OREJA <span>CEO</span></div>
+        <div class="sub" id="home-date">Martes 22 de septiembre de 2026 · Córdoba</div>
+      </div>
+      <button class="themebtn" id="theme" type="button">Tema</button>
+    </div>
+
+    <div class="statusline" hidden>
+      <span class="schip" id="chip-window">Lun–Sáb · 8–18</span>
+      <span class="schip" id="chip-open"><b>–</b> sin cerrar</span>
+      <span class="schip crit">Europa <b>0</b></span>
+    </div>
+
+    <a class="prow" href="#doctrina" hidden>
+      <span class="plabel">Principio<br>de la semana</span>
+      <div><div class="q" id="pweek-q">—</div><div class="a" id="pweek-a"></div></div>
+    </a>
+
+    <section class="rit" id="rit" aria-label="Tu día en tres pasos">
+      <div class="ritring" id="rit-ring"><svg viewBox="0 0 112 112" aria-hidden="true"><circle class="rt" cx="56" cy="56" r="46"/><circle class="rf" id="rit-arc" cx="56" cy="56" r="46" transform="rotate(-90 56 56)" stroke-dasharray="289.03" stroke-dashoffset="289.03"/></svg><div class="rn"><span id="rit-n">0/3</span><small>hoy</small></div></div>
+      <div class="rithead"><h2 id="rit-h">Tu día en tres pasos</h2><div class="ritmeta" id="rit-meta"></div><div class="ritdots" id="rit-dots" aria-label="Últimos 14 días"></div></div>
+      <div class="ritsteps">
+        <a class="ritstep" id="rit-s1" href="#temas"><span class="ck">✓</span><span class="sx"><b>Tratá un tema de Gestión</b><span id="rit-s1t">—</span></span><span class="go">Gestión →</span></a>
+        <div class="ritstep" id="rit-s2"><span class="ck">✓</span><span class="sx"><b>Marcá tus hábitos</b><span id="rit-s2t">Leer y ejercicio cuentan para el premio</span></span><a class="go" href="#habitos">Semana →</a><div class="hstrip" id="home-hab"></div></div>
+        <a class="ritstep" id="rit-s3" href="#proyectos"><span class="ck">✓</span><span class="sx"><b>Mové un proyecto en foco</b><span id="rit-s3t">—</span></span><span class="go">Proyectos →</span></a>
+      </div>
+      <p class="ritmsg" id="rit-msg"></p>
+    </section>
+
+    <section class="clo" id="clo" aria-label="Cloty">
+      <div class="clohead"><h2>Cloty</h2><span class="k" id="clo-k">tu jefe de gabinete</span></div>
+      <div class="clotabs" role="tablist" id="clo-tabs">
+        <button class="clotab on" type="button" role="tab" id="clo-t-form" data-p="form">Formación de hoy</button>
+        <button class="clotab" type="button" role="tab" id="clo-t-res" data-p="res">Resumen</button>
+        <button class="clotab" type="button" role="tab" id="clo-t-ideas" data-p="ideas">Ideas</button>
+      </div>
+      <div class="clopane" id="clo-p-form" role="tabpanel"></div>
+      <div class="clopane" id="clo-p-res" role="tabpanel" hidden></div>
+      <div class="clopane" id="clo-p-ideas" role="tabpanel" hidden></div>
+    </section>
+
+    <div class="hsec">Hoy</div>
+    <a class="hagenda" href="#hoy" id="home-agenda"></a>
+    <a class="hero" href="#temas" id="hero"><div><div class="hl">Lo primero</div><div class="ht" id="hero-t">—</div><div class="hs" id="hero-s"></div></div><span class="hb">Abrir en Gestión</span></a>
+    <div id="home-dec-w" hidden><div class="hsec">Decisiones con fecha</div><a class="hdec" href="#negocios" id="home-dec"></a></div>
+    <div class="hsec">Secciones</div>
+    <p class="apline" id="apline" hidden></p>
+
+    <div class="tiles">
+      <a class="tile temas" href="#temas"><div class="ic">✔</div><div class="tn">Gestión</div><div class="ts">Lo que aparece, hasta cerrarlo</div><span class="tp crit" id="tp-open">– abiertos</span></a>
+      <a class="tile poder" href="#poder"><div class="ic">♟</div><div class="tn">Posición</div><div class="ts">Apuesta, conversaciones que evitás, oportunidades con fecha</div><span class="tp" id="tp-poder">—</span></a>
+      <a class="tile neg" href="#negocios"><div class="ic"></div><div class="tn">Negocios</div><div class="ts">Ideas → filtro → plan</div><span class="tp" id="tp-neg">—</span></a>
+      <a class="tile proy" href="#proyectos"><div class="ic"></div><div class="tn">Proyectos</div><div class="ts">Toda tu cartera, con foco en 3</div><span class="tp" id="tp-proy">—</span></a>
+      <a class="tile agora" href="#agora"><div class="ic"></div><div class="tn">Ágora Field</div><div class="ts">Tu aporte al Distrito y el camino al rol</div><span class="tp" id="tp-agora">—</span></a>
+      <a class="tile gold" href="#golden"><div class="ic"></div><div class="tn">Golden</div><div class="ts">El resultado real de cada fecha</div><span class="tp" id="tp-gold">—</span></a>
+      <a class="tile hab" href="#habitos"><div class="ic"></div><div class="tn">Hábitos</div><div class="ts">Leer, ejercicio, sueño, comida</div><span class="tp" id="tp-hab">—</span></a>
+      <a class="tile hoy" href="#hoy"><div class="ic">📅</div><div class="tn">Hoy</div><div class="ts">Agenda contra la jerarquía</div><span class="tp" id="tp-hoy">—</span></a>
+      <a class="tile golden" href="#frentes"><div class="ic">🎯</div><div class="tn">Frentes</div><div class="ts">Golden · Europa · BS · Dogos</div><span class="tp" id="tp-frentes">—</span></a>
+      <a class="tile cierre" href="#cierre"><div class="ic">📊</div><div class="tn">Cierre del día</div><div class="ts">Qué hiciste, qué venció, cómo pesa cada frente</div><span class="tp" id="tp-cierre">sin cierre todavía</span></a>
+    </div>
+    <details class="mas"><summary>Más secciones</summary>
+    <div class="tiles sec">
+      <a class="tile cap" href="#captura"><div class="ic">🎙</div><div class="tn">Captura</div><div class="ts">Voz → texto → gestión</div></a>
+      <a class="tile spon" href="#sponsors"><div class="ic">🤝</div><div class="tn">Sponsors</div><div class="ts">Lo que tu predio vende de cada marca</div><span class="tp" id="tp-spon">—</span></a>
+      <a class="tile radar" href="#radar"><div class="ic">◎</div><div class="tn">Radar</div><div class="ts">Ideas en el aire, avances, activos, riesgos</div><span class="tp" id="tp-radar">—</span></a>
+      <a class="tile money" href="#finanzas"><div class="ic">💰</div><div class="tn">Finanzas</div><div class="ts">Trimestre de mejora · privado</div><span class="tp ok" id="tp-fin">Arranca 01/10</span></a>
+      <a class="tile inv" href="#inversiones"><div class="ic">📈</div><div class="tn">Inversiones</div><div class="ts">Cartera, moneda, liquidez · privado</div><span class="tp" id="tp-inv">—</span></a>
+      <a class="tile adm" href="#admision"><div class="ic">⛔</div><div class="tn">Admisión BS</div><div class="ts">Test de 5 antes de decir que sí</div><span class="tp" id="tp-adm">—</span></a>
+      <a class="tile doc" href="#doctrina"><div class="ic">📖</div><div class="tn">Doctrina</div><div class="ts">Tu jerarquía + tus principios</div></a>
+    </div>
+    </details>
+    <div class="homefoot" id="clock"></div>
+  </section>
+

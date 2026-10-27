@@ -1,0 +1,41 @@
+  <!-- ================= POSICIÓN ================= -->
+  <section class="view" id="v-poder">
+    <div class="vbar"><a class="back" href="#home">← Oreja</a><h2>Posición</h2><span class="vk" id="po-k">—</span></div>
+    <div class="privacy"><span class="lock">🔒</span><div id="po-priv">Conectando tu espacio privado…</div></div>
+    <div class="card" id="po-locked" hidden><h3>Sección privada</h3><p class="hint">La posición de Oreja es solo del titular.</p></div>
+    <div id="po-body">
+      <div class="card"><h3>La apuesta <span class="k">una sola por frente</span></h3>
+        <p class="hint">Toda idea nueva tiene que decir a cuál de estas dos alimenta. Si no alimenta ninguna, no entra.</p>
+        <div class="pofld">
+          <label>Golden · sos dueño, uno de cinco<input type="text" id="po-ap-golden" placeholder="la apuesta de Golden, en una línea"></label>
+          <label>BS Group · tenés que ganarte el lugar<input type="text" id="po-ap-bs" placeholder="la posición que querés, en una línea"></label>
+        </div>
+      </div>
+      <div class="card"><h3>El paquete <span class="k">esto dejo, esto tomo</span></h3>
+        <p class="hint">Una página para llevar a la mesa. Los montos no se escriben acá hasta que estén acordados: dejá el esquema, no el número.</p>
+        <div class="pofld">
+          <label>Lo que dejo<textarea id="po-dejo" placeholder="áreas operativas que soltás, con sucesor y fecha"></textarea></label>
+          <label>Lo que tomo<textarea id="po-tomo" placeholder="el mandato: qué decidís solo, qué decidís con ellos, qué no te toca"></textarea></label>
+          <label>Lo que pido<textarea id="po-pido" placeholder="alcance de decisión y esquema de pago atado a resultado"></textarea></label>
+          <label>Lo que entrego en 90 días<textarea id="po-entrego" placeholder="el entregable medible y qué datos necesitás de ellos para hacerlo"></textarea></label>
+        </div>
+        <div class="spact"><button class="minibtn" id="po-copy" type="button">Copiar como una página</button><span class="fmsg" id="po-msg"></span></div>
+      </div>
+      <div class="card"><h3>Conversaciones pendientes <span class="k" id="po-cv-k"></span></h3>
+        <p class="hint">Las que venís cediendo o postergando. Cada una se prepara antes (qué quiere el otro, qué pedís, tu salida si dicen que no) y se revisa después. El principio que quede va a Doctrina.</p>
+        <div id="po-conv"></div>
+        <div class="addbar"><input id="po-cv-in" type="text" placeholder="Con quién y sobre qué…"><button class="minibtn" id="po-cv-add" type="button">+ Sumar</button></div>
+      </div>
+      <div class="card"><h3>Oportunidades <span class="k" id="po-op-k"></span></h3>
+        <p class="hint">Entran con tres datos: quién cobra, próximo paso y fecha de muerte. Vencida la fecha no se reprograma: se mata, se delega o te comprometés.</p>
+        <div id="po-opo"></div>
+        <div class="addbar"><input id="po-op-in" type="text" placeholder="La posibilidad, en una línea…"><button class="minibtn" id="po-op-add" type="button">+ Sumar</button></div>
+      </div>
+      <div class="card"><h3>Solté <span class="k" id="po-so-k"></span></h3>
+        <p class="hint">Qué responsabilidad operativa dejaste y a quién. Cada cosa que seguís ejecutando vos es lugar de decisión que no ganás.</p>
+        <ul class="clist" id="po-solte"></ul>
+        <div class="addbar"><input id="po-so-q" type="text" placeholder="Qué solté"><input id="po-so-a" type="text" placeholder="A quién"><button class="minibtn" id="po-so-add" type="button">+ Sumar</button></div>
+      </div>
+    </div>
+  </section>
+
