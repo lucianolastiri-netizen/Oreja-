@@ -10,8 +10,14 @@
   function mvDelMes(k){ return mvAll().filter(function(m){ return m.fecha.slice(0,7)===k&&m.estado!=='descartado'; }).sort(function(a,b){ return a.fecha<b.fecha?1:(a.fecha>b.fecha?-1:0); }); }
   function mvCats(tipo){ var c=tipo==='ingreso'?F.ing.map(function(l){ return l[0]; }):F.egr.map(function(g){ return g[0]; }); c=c.filter(Boolean); if(c.indexOf('Otros')<0)c.push('Otros'); return c; }
   function mvTot(k){ var t={ing:0,egr:0,pn:0,pm:0}; mvDelMes(k).forEach(function(m){ var v=Number(m.monto)||0; if(m.estado==='confirmado'){ if(m.tipo==='ingreso')t.ing+=v; else t.egr+=v; } else { t.pn++; t.pm+=v; } }); return t; }
-  function renderMovs(){ var meses=['2026-09','2026-10','2026-11','2026-12'], bar=document.getElementById('mv-meses'); bar.innerHTML='';
-    meses.forEach(function(k){ var b=el('button','ptab'+(mvMes===k?' on':''),MESN[k.slice(5)]); b.type='button'; var n=mvDelMes(k).length; if(n)b.appendChild(el('span','n',String(n)));
+  // Pestañas: los meses del trimestre más los que vengan después (hasta el mes actual o el último movimiento), máximo 6.
+  function mvMeses(){ var fin=todayKey().slice(0,7), set={}; MESES.forEach(function(M){ set[M[0]]=1; }); set[mvMes]=1;
+    mvAll().forEach(function(m){ var k=m.fecha.slice(0,7); if(k>fin)fin=k; });
+    for(var y=2026,mo=9;;){ var k=y+'-'+('0'+mo).slice(-2); if(k>fin)break; set[k]=1; mo++; if(mo>12){ mo=1; y++; } }
+    var ks=Object.keys(set).filter(function(k){ return k>='2026-09'; }).sort(); ks=ks.slice(-6); if(ks.indexOf(mvMes)<0){ ks.push(mvMes); ks.sort(); } return ks; }
+  function mvLab(k){ return MESN[k.slice(5)]+(k.slice(0,4)!==todayKey().slice(0,4)?' '+k.slice(2,4):''); }
+  function renderMovs(){ var meses=mvMeses(), bar=document.getElementById('mv-meses'); bar.innerHTML='';
+    meses.forEach(function(k){ var b=el('button','ptab'+(mvMes===k?' on':''),mvLab(k)); b.type='button'; var n=mvDelMes(k).length; if(n)b.appendChild(el('span','n',String(n)));
       b.addEventListener('click',function(){ mvMes=k; mvArmed=false; renderMovs(); }); bar.appendChild(b); });
     var t=mvTot(mvMes), s=document.getElementById('mv-sum');
     s.innerHTML='<span>Ingresos confirmados <b class="pnum">'+money(t.ing)+'</b></span><span>Egresos confirmados <b class="pnum">'+money(t.egr)+'</b></span>'+(t.pn?'<span>Por confirmar <b>'+t.pn+'</b> (<span class="pnum">'+money(t.pm)+'</span>)</span>':'');
@@ -30,7 +36,7 @@
       if(prop){ var ok=el('button','mvbtn ok','✓ Confirmar'); ok.type='button'; ok.addEventListener('click',function(){ m.estado='confirmado'; mvSave(m); renderMovs(); }); c.appendChild(ok); }
       var no=el('button','mvbtn','Descartar'); no.type='button'; no.addEventListener('click',function(){ m.estado='descartado'; mvSave(m); renderMovs(); }); c.appendChild(no);
       r.appendChild(c); list.appendChild(r); });
-    var pb=document.getElementById('mv-pasar'); pb.hidden=(mvMes==='2026-09');
+    var pb=document.getElementById('mv-pasar'); pb.hidden=!MESES.some(function(M){ return M[0]===mvMes&&M[2]!=='base'; });
     pb.textContent=mvArmed?('¿Reemplazar el real de '+MESN[mvMes.slice(5)]+' con '+money(t.ing)+' / '+money(t.egr)+'? Tocá de nuevo'):('Pasar lo confirmado al seguimiento de '+MESN[mvMes.slice(5)]); }
   document.getElementById('mv-pasar').addEventListener('click',function(){ if(!mvArmed){ mvArmed=true; renderMovs(); setTimeout(function(){ mvArmed=false; renderMovs(); },4000); return; }
     mvArmed=false; var t=mvTot(mvMes); var mm=F.meses[mvMes]||(F.meses[mvMes]={}); mm.ing=t.ing; mm.egr=t.egr; saveF(); renderFin(); });
@@ -68,7 +74,7 @@
     if(!own){ finMode='ajeno'; F=finEmpty(); setLocked(true); renderFin(); gMode='ajeno'; G2={}; gestLock(true); renderGest(); renderGestPriv(); cMode='ajeno'; cierreLock(true); renderCierre(); rdMode='ajeno'; invMode='ajeno'; hoyMode='ajeno'; RD={}; lockMore(true); renderRadar(); renderInv(); renderHoy(); spMode='ajeno'; adMode='ajeno'; SP={}; AD={}; spAdLock(true); renderSp(); renderAd(); poMode='ajeno'; poLock(true); renderPo(); hbMode='ajeno'; hbLock(true); renderHb(); ngMode='ajeno'; ngLock(true); renderNg(); gdMode='ajeno'; gdLock(true); renderGd(); agMode='ajeno'; agLock(true); renderAg(); pjMode='ajeno'; pjLock(true); renderPj(); return; }
     var uid=null; try{ uid=await U.id(); }catch(e){}
     if(!uid){ privMode('local'); return; }
-    gestAttach(DBx,uid); spAttach(DBx,uid); adAttach(DBx,uid); cierreAttach(DBx,uid); radarAttach(DBx,uid); hoyAttach(DBx,uid); invAttach(DBx,uid); notasAttach(DBx,uid); mvAttach(DBx,uid); poAttach(DBx,uid); hbAttach(DBx,uid); ngAttach(DBx,uid); gdAttach(DBx,uid); agAttach(DBx,uid); pjAttach(DBx,uid); ritAttach(DBx,uid); cloAttach(DBx,uid);
+    gestAttach(DBx,uid); spAttach(DBx,uid); adAttach(DBx,uid); cierreAttach(DBx,uid); radarAttach(DBx,uid); hoyAttach(DBx,uid); invAttach(DBx,uid); notasAttach(DBx,uid); mvAttach(DBx,uid); poAttach(DBx,uid); hbAttach(DBx,uid); ngAttach(DBx,uid); gdAttach(DBx,uid); agAttach(DBx,uid); pjAttach(DBx,uid); ritAttach(DBx,uid); cloAttach(DBx,uid); doctrinaAttach(DBx,uid); usoAttach(DBx,uid);
     try{ finRef=DBx.doc('data/users/'+uid+'/finanzas'); }catch(e){ finRef=null; privMode('local'); return; }
     finRef.onSnapshot(function(snap){ finMode='sync';
       if(!snap||!snap.exists){ if(F.egr.length||F.ing.length)saveF(); renderFin(); return; }

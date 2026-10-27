@@ -8,15 +8,11 @@
   function lget(k,d){ try{var r=localStorage.getItem(k); return r?JSON.parse(r):d;}catch(e){return d;} }
   function lset(k,v){ try{localStorage.setItem(k,JSON.stringify(v));}catch(e){} }
   // ----- capa de base de datos (sync entre dispositivos + Cloty) -----
-  var DB=null, dbCur={}, dbSeeded={};
-  function dbSet(path,obj){ try{dbCur[path]=JSON.stringify(obj);}catch(e){} if(DB){ try{ DB.doc(path).set(obj)['catch'](function(){}); }catch(e){} } }
-  function dbWatch(path, getLocal, apply){ if(!DB)return;
-    try{ DB.doc(path).onSnapshot(function(snap){
-      if(!snap||!snap.exists){ if(!dbSeeded[path]){ dbSeeded[path]=true; dbSet(path, getLocal()); } return; }
-      var d=snap.data()||{}, j=null; try{j=JSON.stringify(d);}catch(e){}
-      if(j!==null && j===dbCur[path]) return; dbCur[path]=j; apply(d);
-    }, function(){}); }catch(e){} }
-  function saveP(){ lset(PK,P); dbSet('state/principios',{items:P}); }
+  var DB=null;
+  // Doctrina vive en el espacio privado del titular (data/users/<id>/principios). Hasta oct/2026 estaba en
+  // state/principios, un documento compartido que cualquier persona con el link podía leer y pisar.
+  var pRef=null;
+  function saveP(){ lset(PK,P); if(pRef){ pRef.set({items:P})['catch'](function(){}); } }
   function copyText(t){ if(navigator.clipboard&&navigator.clipboard.writeText){return navigator.clipboard.writeText(t);} try{var ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);}catch(e){} return Promise.resolve(); }
 
   // theme

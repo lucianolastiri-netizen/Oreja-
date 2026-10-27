@@ -33,4 +33,13 @@
     var d=new Date(); var wk=Math.floor((Date.UTC(d.getFullYear(),d.getMonth(),d.getDate())/86400000)/7); var p=P[wk%P.length];
     document.getElementById('pweek-q').textContent='“'+p.texto+'”'; document.getElementById('pweek-a').textContent=p.autor?('— '+p.autor+(p.area?(' · '+p.area):'')):''; }
   renderTabs(); renderPrinc(); renderPweek();
+  function doctrinaAttach(DBx,uid){ var legacy, migrado=false;
+    try{ pRef=DBx.doc('data/users/'+uid+'/principios'); legacy=DBx.doc('state/principios'); }catch(e){ pRef=null; return; }
+    pRef.onSnapshot(function(s){
+      if(s&&s.exists){ var d=s.data()||{}; if(Array.isArray(d.items)){ P=d.items; lset(PK,P); renderTabs(); renderPrinc(); renderPweek(); } return; }
+      if(migrado||(s&&s.metadata&&s.metadata.fromCache))return; migrado=true;
+      // Primera vez en el espacio privado: trae lo del documento compartido viejo y recién después lo borra de ahí.
+      legacy.get().then(function(ls){ var it=ls&&ls.exists&&(ls.data()||{}).items; if(Array.isArray(it)&&it.length)P=it; return pRef.set({items:P}); })
+        .then(function(){ return legacy.delete(); })['catch'](function(){});
+    },function(){}); }
 
