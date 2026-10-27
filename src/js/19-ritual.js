@@ -13,7 +13,7 @@
     if(usoRef&&r.n>ritDayN(t)&&usoLast!==t+':'+r.n){ usoLast=t+':'+r.n; USO.dias=USO.dias||{}; USO.dias[t]=r.n; USO.act=nowIso(); usoRef.set(JSON.parse(JSON.stringify(USO)))['catch'](function(){}); }
     var nT=Math.max(r.n,ritDayN(t)), arc=document.getElementById('rit-arc'), C=289.03; arc.setAttribute('stroke-dashoffset',String(C*(1-nT/3)));
     document.getElementById('rit-ring').classList.toggle('full',nT>=3); setT('rit-n',nT+'/3');
-    var h=new Date().getHours(); setT('rit-h',(h<13?'Buen día':(h<20?'Buenas tardes':'Buenas noches'))+', Pelado');
+    var h=new Date().getHours(); setT('rit-h',(h<13?'Buen día':(h<20?'Buenas tardes':'Buenas noches'))+', Oreja');
     // racha: días hábiles seguidos con 2 de 3 o más (el domingo no corta)
     var streak=0; for(var i=(nT>=2?0:1);i<120;i++){ var k=dayKey(i); if(ritIsSun(k))continue; if(ritDayN(k)>=2||(i===0&&nT>=2))streak++; else break; }
     var wk=0, d0=new Date(); var dow=(d0.getDay()+6)%7; for(var j=0;j<=dow;j++){ var kk=dayKey(j); if(ritIsSun(kk))continue; if((j===0?nT:ritDayN(kk))>=2)wk++; }

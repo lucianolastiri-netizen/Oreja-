@@ -7,12 +7,11 @@
   function ngSave(it){ it.act=nowIso(); NG[it.id]=it; if(ngCol){ ngCol.doc(it.id).set(JSON.parse(JSON.stringify(it)))['catch'](function(){ ngMode='error'; renderNg(); }); } }
   function ngAll(){ return Object.keys(NG).map(function(k){ return NG[k]; }).filter(function(x){ return x&&x.id&&x.t; }).sort(function(a,b){ return String(b.act||b.creado||'')<String(a.act||a.creado||'')?-1:1; }); }
   function ngVer(it){ var c=it.c||{}, si=0, n=0; NGCRIT.forEach(function(k){ if(c[k[0]])n++; if(c[k[0]]==='si')si++; }); return {si:si,n:n,v:n<5?'falta':(si>=3?'pasa':(si===1&&c.u==='si'?'solourg':'nopasa'))}; }
+  // El contexto personal vive en data/users/<id>/contexto (se edita en Doctrina), no en el código: el repo es público.
+  var CTX={texto:''};
   function ngCtx(){ var ap=(typeof PO==='object'&&PO.ap)||{};
-    return 'CONTEXTO DE LUCHO (Luciano Lastiri, Córdoba, Argentina, 15+ años en gestión deportiva):\n'+
-      '- Golden: torneo de fútbol amateur, 16 años, ~100 equipos, dos temporadas por año, predio propio de 20 hectáreas. Lucho es uno de 5 socios en partes iguales; lleva lo comercial, innovación y alianzas. Es ~75% de su ingreso. Apuesta declarada en Golden: '+(ap.golden||'sin definir')+'.\n'+
-      '- BS Group: empresa de gestión deportiva y producción de eventos (socios: Nacho Rinaldini y Rodrigo Escribano, CEO). Lucho es contratado, cobra extras por proyecto, trabaja en producción y quiere una posición fuerte y clara en la gestión y el desarrollo del Distrito deportivo de la empresa (algo distinto de Golden, de avanzada para el deporte). Apuesta declarada en BS: '+(ap.bs||'sin definir')+'.\n'+
-      '- Regla de decisión de Lucho: Aprendizaje > Relación > ROI > Marca > Urgencia. Falla más cara: abre oportunidades y no las cierra.\n'+
-      '- Reglas de contexto argentino: toda propuesta con precios lleva cláusula de ajuste por inflación; nunca se cotiza de escritorio.\n'+
+    return (CTX.texto||'CONTEXTO DE OREJA: todavía sin cargar (se completa en Oreja › Doctrina › Contexto para Cloty).')+'\n'+
+      '- Apuesta declarada en Golden: '+(ap.golden||'sin definir')+'. Apuesta declarada en BS Group: '+(ap.bs||'sin definir')+'.\n'+
       '- NUNCA inventes números, precios, montos, nombres de contactos ni fechas. Donde haga falta un dato, escribí [completar: qué dato y dónde conseguirlo].\n'; }
   function ngCard(it){ var et=it.etapa||'idea', card=el('div','gitem'+((et==='descartada'||et==='archivada'||et==='cerrada')?' done':''));
     var head=el('button','ghead'); head.type='button'; head.setAttribute('aria-expanded',ngOpen[it.id]?'true':'false');

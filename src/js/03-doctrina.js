@@ -4,7 +4,7 @@
     {id:'p1',texto:'Aprendizaje > Relación > ROI > Marca > Urgencia. La urgencia sola nunca alcanza.',autor:'Regla propia',area:'asignación'},
     {id:'p2',texto:'No negociables: Salud, Familia, Calidad, Ingresos. Nada se agenda encima de Golden ni de Europa.',autor:'Regla propia',area:'foco'},
     {id:'p3',texto:'Un pedido sin dueño y sin fecha no es prioridad, es la urgencia de otro.',autor:'Regla propia',area:'asignación'},
-    {id:'p4',texto:'La operación conocida te protege de la incomodidad de construir lo nuevo. No soltar Dogos = evitación.',autor:'Cloty',area:'delegación'},
+    {id:'p4',texto:'La operación conocida te protege de la incomodidad de construir lo nuevo. No soltar lo operativo = evitación.',autor:'Cloty',area:'delegación'},
     {id:'p5',texto:'Crear la tarea no es avanzar. Si se reprogramó dos veces, el problema no es la fecha: falta una decisión.',autor:'Cloty',area:'foco'},
     {id:'p6',texto:'Un proyectado en pesos sin supuesto de inflación no dice nada. La cláusula de ajuste es lo más consecuente.',autor:'Regla de contexto AR',area:'plata'}
   ];
@@ -43,3 +43,11 @@
         .then(function(){ return legacy.delete(); })['catch'](function(){});
     },function(){}); }
 
+  // ----- contexto para Cloty (privado; lo usan Negocios y Cloty en vivo) -----
+  var ctxRef=null;
+  function renderCtx(){ var c=document.getElementById('ctx-card'); c.hidden=!ctxRef; var t=document.getElementById('ctx-txt');
+    if(document.activeElement!==t)t.value=CTX.texto||''; setT('ctx-k',CTX.act?'actualizado '+dm(localDay(CTX.act)):'privado'); }
+  function ctxAttach(DBx,uid){ try{ ctxRef=DBx.doc('data/users/'+uid+'/contexto'); }catch(e){ ctxRef=null; return; }
+    ctxRef.onSnapshot(function(s){ var d=(s&&s.exists)?(s.data()||{}):{}; CTX={texto:String(d.texto||''),act:d.act||''}; renderCtx(); },function(){}); renderCtx(); }
+  document.getElementById('ctx-save').addEventListener('click',function(){ var m=document.getElementById('ctx-msg'); if(!ctxRef){ m.textContent='Sin conexión: no se guardó'; return; }
+    CTX={texto:document.getElementById('ctx-txt').value.trim(),act:nowIso()}; ctxRef.set({texto:CTX.texto,act:CTX.act}).then(function(){ m.textContent='Guardado'; },function(){ m.textContent='No se pudo guardar'; }); });

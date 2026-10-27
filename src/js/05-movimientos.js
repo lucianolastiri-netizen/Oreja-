@@ -26,7 +26,7 @@
     if(!arr.length) list.appendChild(el('p','hint','Sin movimientos cargados en este mes.'));
     arr.forEach(function(m){ var prop=m.estado!=='confirmado'; var r=el('div','mvrow'+(prop?' prop':''));
       r.appendChild(el('span','mf',dm(m.fecha)));
-      var d=el('span','md',m.desc||'(sin concepto)'); var o=m.origen||{}; d.appendChild(el('small',null,({mail:'✉ '+(o.de||'mail'),voz:'🎙 dictado',manual:'✍ cargado por vos'})[o.tipo]||'')); r.appendChild(d);
+      var d=el('span','md',m.desc||'(sin concepto)'); var o=m.origen||{}; d.appendChild(el('small',null,({mail:'✉ '+(o.de||'mail'),voz:'🎙 dictado',cloty:'✦ con Cloty',manual:'✍ cargado por vos'})[o.tipo]||'')); r.appendChild(d);
       r.appendChild(el('span','mm'+(m.tipo==='ingreso'?' in':''),(m.tipo==='ingreso'?'+':'−')+money(m.monto)));
       var c=el('span','mc'); var sel=el('select'); var cats=mvCats(m.tipo); if(m.cat&&cats.indexOf(m.cat)<0)cats.unshift(m.cat);
       var o0=el('option',null,'Sin categoría'); o0.value=''; sel.appendChild(o0);
@@ -65,16 +65,16 @@
   fh.addEventListener('click',function(){ hid=!hid; applyHide(hid); lset('oreja_finhide2',hid); });
   function setLocked(on){ document.getElementById('fin-locked').hidden=!on; finBody.hidden=!!on; fh.hidden=!!on; ih.hidden=!!on; }
   renderFin();
-  function privMode(m){ finMode=m; gMode=m; renderPriv(); renderGestPriv(); cMode=m; rdMode=m; invMode=m; hoyMode=m; renderCierre(); renderRadar(); renderInv(); renderHoy(); spMode=m; adMode=m; renderSp(); renderAd(); poMode=m; renderPo(); hbMode=m; renderHb(); ngMode=m; renderNg(); gdMode=m; renderGd(); agMode=m; renderAg(); pjMode=m; renderPj(); }
+  function privMode(m){ finMode=m; gMode=m; renderPriv(); renderGestPriv(); cMode=m; rdMode=m; invMode=m; hoyMode=m; renderCierre(); renderRadar(); renderInv(); renderHoy(); spMode=m; adMode=m; renderSp(); renderAd(); poMode=m; renderPo(); hbMode=m; renderHb(); ngMode=m; renderNg(); gdMode=m; renderGd(); agMode=m; renderAg(); pjMode=m; renderPj(); cvMode=m; renderCv(); }
   async function finConnect(DBx){
     if(!DBx||!window.claude||!window.claude.use){ privMode('local'); return; }
     var U=null; try{ U=await window.claude.use('user'); }catch(e){ U=null; }
     if(!U){ privMode('local'); return; }
     var own=false; try{ own=await U.isOwner(); }catch(e){}
-    if(!own){ finMode='ajeno'; F=finEmpty(); setLocked(true); renderFin(); gMode='ajeno'; G2={}; gestLock(true); renderGest(); renderGestPriv(); cMode='ajeno'; cierreLock(true); renderCierre(); rdMode='ajeno'; invMode='ajeno'; hoyMode='ajeno'; RD={}; lockMore(true); renderRadar(); renderInv(); renderHoy(); spMode='ajeno'; adMode='ajeno'; SP={}; AD={}; spAdLock(true); renderSp(); renderAd(); poMode='ajeno'; poLock(true); renderPo(); hbMode='ajeno'; hbLock(true); renderHb(); ngMode='ajeno'; ngLock(true); renderNg(); gdMode='ajeno'; gdLock(true); renderGd(); agMode='ajeno'; agLock(true); renderAg(); pjMode='ajeno'; pjLock(true); renderPj(); return; }
+    if(!own){ finMode='ajeno'; F=finEmpty(); setLocked(true); renderFin(); gMode='ajeno'; G2={}; gestLock(true); renderGest(); renderGestPriv(); cMode='ajeno'; cierreLock(true); renderCierre(); rdMode='ajeno'; invMode='ajeno'; hoyMode='ajeno'; RD={}; lockMore(true); renderRadar(); renderInv(); renderHoy(); spMode='ajeno'; adMode='ajeno'; SP={}; AD={}; spAdLock(true); renderSp(); renderAd(); poMode='ajeno'; poLock(true); renderPo(); hbMode='ajeno'; hbLock(true); renderHb(); ngMode='ajeno'; ngLock(true); renderNg(); gdMode='ajeno'; gdLock(true); renderGd(); agMode='ajeno'; agLock(true); renderAg(); pjMode='ajeno'; pjLock(true); renderPj(); cvMode='ajeno'; cvLock(true); renderCv(); return; }
     var uid=null; try{ uid=await U.id(); }catch(e){}
     if(!uid){ privMode('local'); return; }
-    gestAttach(DBx,uid); spAttach(DBx,uid); adAttach(DBx,uid); cierreAttach(DBx,uid); radarAttach(DBx,uid); hoyAttach(DBx,uid); invAttach(DBx,uid); notasAttach(DBx,uid); mvAttach(DBx,uid); poAttach(DBx,uid); hbAttach(DBx,uid); ngAttach(DBx,uid); gdAttach(DBx,uid); agAttach(DBx,uid); pjAttach(DBx,uid); ritAttach(DBx,uid); cloAttach(DBx,uid); doctrinaAttach(DBx,uid); usoAttach(DBx,uid);
+    gestAttach(DBx,uid); spAttach(DBx,uid); adAttach(DBx,uid); cierreAttach(DBx,uid); radarAttach(DBx,uid); hoyAttach(DBx,uid); invAttach(DBx,uid); notasAttach(DBx,uid); mvAttach(DBx,uid); poAttach(DBx,uid); hbAttach(DBx,uid); ngAttach(DBx,uid); gdAttach(DBx,uid); agAttach(DBx,uid); pjAttach(DBx,uid); ritAttach(DBx,uid); cloAttach(DBx,uid); doctrinaAttach(DBx,uid); usoAttach(DBx,uid); ctxAttach(DBx,uid); cvAttach(DBx,uid);
     try{ finRef=DBx.doc('data/users/'+uid+'/finanzas'); }catch(e){ finRef=null; privMode('local'); return; }
     finRef.onSnapshot(function(snap){ finMode='sync';
       if(!snap||!snap.exists){ if(F.egr.length||F.ing.length)saveF(); renderFin(); return; }

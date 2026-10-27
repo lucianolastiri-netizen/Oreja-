@@ -15,7 +15,7 @@
         <li><span class="chip note">Solo</span><div>Saludos, cierres, acuses de recibo, logística ya acordada y recordatorios al equipo. Proveedores que ofrecen sin que pidas: respuesta amable en tu tono, tu mail y aviso.</div></li>
         <li><span class="chip flag">Con tu OK</span><div>Promesas con fecha (van al Calendar con avisos 24 h y 1 h), reuniones (propone horarios libres) y favores ("dejame ver y te confirmo").</div></li>
         <li><span class="chip watch">Solo vos</span><div>Plata, familia, temas delicados, audios y prioridades entre negocios.</div></li>
-        <li><span class="chip note">Reglas</span><div>Leer las últimas 24 h antes de escribir. Nada de saludos sin motivo. Usar el apodo de la planilla (Chebo, no Seba). Lo social no se mezcla con laburo. Si alguien pregunta si es un bot, la verdad y aviso. Si mete la pata, la verdad con humor y la charla vuelve a lo importante.</div></li>
+        <li><span class="chip note">Reglas</span><div>Leer las últimas 24 h antes de escribir. Nada de saludos sin motivo. Usar el apodo de la planilla, no el nombre. Lo social no se mezcla con laburo. Si alguien pregunta si es un bot, la verdad y aviso. Si mete la pata, la verdad con humor y la charla vuelve a lo importante.</div></li>
         <li><span class="chip note">Operación</span><div>Lunes a sábado de 8 a 20 h. Sponsors con respuesta el mismo día. Resumen a las 9 y a las 18 h.</div></li>
       </ul>
     </div>
@@ -35,6 +35,11 @@
       <p class="hint" style="margin-top:12px">¿Tenés subrayados? Pegalos abajo, uno por línea, y los importo como principios para etiquetar después.</p>
       <div class="form"><textarea id="pf-import" rows="3" placeholder="Pegá acá tus subrayados (uno por línea)…"></textarea>
         <button class="minibtn" id="pf-import-btn" type="button" style="align-self:flex-start">Importar líneas</button></div>
+    </div>
+    <div class="card" id="ctx-card" hidden><h3>Contexto para Cloty <span class="k" id="ctx-k">privado</span></h3>
+      <p class="hint">Lo que Cloty sabe de vos cuando arma un plan de Negocios o habla en Cloty en vivo: quién sos, tus negocios, socios y reglas. Vive en tu espacio privado, no en el código. Escribilo en párrafos o con guiones.</p>
+      <div class="form"><textarea id="ctx-txt" rows="8" placeholder="Quién sos, en qué estás, con quién y qué querés"></textarea>
+        <div class="spact"><button class="minibtn" id="ctx-save" type="button">Guardar contexto</button><span class="fmsg" id="ctx-msg"></span></div></div>
     </div>
   </section>
 

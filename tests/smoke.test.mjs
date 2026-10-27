@@ -14,12 +14,12 @@ const PAGE = pathToFileURL(path.join(ROOT, 'dist', 'oreja-ceo.html')).href;
 const MOCK = fs.readFileSync(path.join(ROOT, 'tests', 'mock-claude.js'), 'utf8');
 
 const VIEWS = ['home', 'proyectos', 'agora', 'golden', 'negocios', 'habitos', 'poder', 'cierre', 'hoy', 'frentes',
-  'temas', 'radar', 'finanzas', 'inversiones', 'captura', 'doctrina', 'sponsors', 'admision'];
+  'temas', 'radar', 'finanzas', 'inversiones', 'captura', 'doctrina', 'sponsors', 'admision', 'cloty'];
 const PRIVATE = ['proyectos', 'agora', 'golden', 'negocios', 'habitos', 'poder', 'cierre', 'temas', 'radar',
-  'finanzas', 'inversiones', 'sponsors', 'admision'];
+  'finanzas', 'inversiones', 'sponsors', 'admision', 'cloty'];
 const LOCK = { proyectos: 'pj-locked', agora: 'ag-locked', golden: 'gd-locked', negocios: 'ng-locked', habitos: 'hb-locked',
   poder: 'po-locked', cierre: 'c-locked', temas: 'g-locked', radar: 'rd-locked', finanzas: 'fin-locked',
-  inversiones: 'inv-locked', sponsors: 'sp-locked', admision: 'ad-locked' };
+  inversiones: 'inv-locked', sponsors: 'sp-locked', admision: 'ad-locked', cloty: 'cv-locked' };
 
 let browser;
 before(async () => { browser = await chromium.launch(); });
@@ -131,6 +131,108 @@ test('Finanzas: en enero de 2027 aparece la pestaña del mes y el movimiento se 
   assert.match(await page.textContent('#mv-meses .ptab.on'), /Enero/);
   assert.match(await page.textContent('#mv-list'), /Supermercado/);
   assert.equal(await page.isVisible('#mv-pasar'), false, 'enero no está en el seguimiento del trimestre');
+  assert.deepEqual(errors, []);
+  await ctx.close();
+});
+
+// ---------- Cloty en vivo ----------
+const HOY = new Date().toISOString();
+async function enviar(page, txt) {
+  await go(page, 'cloty');
+  await page.fill('#cv-in', txt);
+  await page.click('#cv-send');
+}
+const store = (page) => page.evaluate(() => window.__OREJA_DB__.store);
+const resultados = (page) => page.evaluate(() => window.__OREJA_SAMPLE__.results);
+
+test('Cloty en vivo: crea un tema solo después de que Oreja confirma, y deja rastro en la bitácora', async () => {
+  const script = [[{ tool: 'crear_tema', input: { titulo: 'Mandar propuesta a Heineken', frente: 'golden', fecha: '2026-11-03', prox: 'Armar el one-pager' } }, { text: 'Listo, quedó en Gestión.' }]];
+  const { ctx, page, errors } = await open({ owner: true, uid: 'u1', sampleScript: script, seed: { 'data/users/u1/contexto': { texto: 'CONTEXTO DE PRUEBA XYZ' } } }, { width: 390, height: 844 });
+  await enviar(page, 'Anotá mandar la propuesta a Heineken para el 3/11');
+  await page.waitForSelector('.cvconf');
+  assert.match(await page.textContent('.cvconf'), /Mandar propuesta a Heineken/);
+  assert.ok((await overflow(page)) <= 1, 'la tarjeta de confirmación desborda en celular');
+  await page.click('.cvconf button:has-text("Confirmar")');
+  await page.waitForSelector('.cvmsg.a:has-text("Listo, quedó en Gestión.")');
+  const st = await store(page);
+  const tema = Object.entries(st).find(([k, v]) => k.startsWith('data/users/u1/gestion/items/') && v.t === 'Mandar propuesta a Heineken');
+  assert.ok(tema, 'el tema no se guardó');
+  assert.equal(tema[1].fecha, '2026-11-03');
+  await page.waitForFunction(() => Object.keys(window.__OREJA_DB__.store).some((k) => k.startsWith('data/users/u1/agentes/bitacora/cloty-vivo-')));
+  const bit = Object.entries(await store(page)).find(([k]) => k.includes('/agentes/bitacora/cloty-vivo-'))[1];
+  assert.match(bit.hizo, /creó un tema/);
+  assert.doesNotMatch(bit.hizo, /Heineken/, 'la bitácora no debería llevar el detalle');
+  const chat = (await store(page))['data/users/u1/agente'];
+  assert.equal(chat.turnos.length, 2);
+  const prompt = (await page.evaluate(() => window.__OREJA_SAMPLE__.calls[0].input[0].content));
+  assert.match(prompt, /CONTEXTO DE PRUEBA XYZ/, 'el contexto privado no llega al prompt');
+  assert.deepEqual(errors, []);
+  await ctx.close();
+});
+
+test('Cloty en vivo: si Oreja no confirma, no cambia nada', async () => {
+  const script = [[{ tool: 'crear_tema', input: { titulo: 'Algo que no quiero', frente: 'otro' } }, { text: 'Ok, no lo cargo.' }]];
+  const { ctx, page, errors } = await open({ owner: true, uid: 'u1', sampleScript: script }, { width: 1280, height: 900 });
+  await enviar(page, 'Cargá algo');
+  await page.waitForSelector('.cvconf');
+  await page.click('.cvconf button:has-text("No")');
+  await page.waitForSelector('.cvmsg.a:has-text("Ok, no lo cargo.")');
+  const r = await resultados(page);
+  assert.equal(r[0].ok, false);
+  assert.match(r[0].err, /no lo confirmó/);
+  assert.ok(!Object.values(await store(page)).some((v) => v && v.t === 'Algo que no quiero'));
+  assert.ok(!Object.keys(await store(page)).some((k) => k.includes('/agentes/bitacora/')), 'sin acciones no hay entrada en la bitácora');
+  assert.deepEqual(errors, []);
+  await ctx.close();
+});
+
+test('Cloty en vivo: no cierra un tema sin línea de cierre y cuenta la reprogramación', async () => {
+  const seed = { 'data/users/u1/gestion/items/t1': { id: 't1', t: 'Llamar a Rodrigo', frente: 'bs', est: 'curso', fecha: '2026-10-20', prox: 'Llamar', hist: [], creado: HOY, reprog: 1 } };
+  const script = [[
+    { tool: 'actualizar_tema', input: { id: 't1', estado: 'hecho' } },
+    { tool: 'actualizar_tema', input: { id: 't1', fecha: '2026-11-05' } },
+    { text: 'Movido al 5/11.' },
+  ]];
+  const { ctx, page, errors } = await open({ owner: true, uid: 'u1', sampleScript: script, seed }, { width: 1280, height: 900 });
+  await enviar(page, 'Cerrá lo de Rodrigo, o si no pasalo al 5/11');
+  await page.waitForSelector('.cvconf');
+  await page.click('.cvconf button:has-text("Confirmar")');
+  await page.waitForSelector('.cvmsg.a:has-text("Movido al 5/11.")');
+  const r = await resultados(page);
+  assert.equal(r[0].ok, false);
+  assert.match(r[0].err, /línea de cierre/);
+  const t1 = (await store(page))['data/users/u1/gestion/items/t1'];
+  assert.equal(t1.est, 'curso');
+  assert.equal(t1.fecha, '2026-11-05');
+  assert.equal(t1.reprog, 2);
+  assert.deepEqual(errors, []);
+  await ctx.close();
+});
+
+test('Agentes: el parte y los pedidos abiertos se ven, y la respuesta vuelve al agente por la bitácora', async () => {
+  const hoy = new Date(); const f = hoy.getFullYear() + '-' + String(hoy.getMonth() + 1).padStart(2, '0') + '-' + String(hoy.getDate()).padStart(2, '0');
+  const seed = {
+    [`data/users/u1/agentes/parte/${f}`]: { fecha: f, decision: 'Definir si se firma con la marca X', lectura: 'Formación no se usa.', rutinas: { fallas: [{ nombre: 'Barrido', hora: '07:50', motivo: 'límite de uso', reintento: 'sí' }], noCorrieron: [] } },
+    'data/users/u1/agentes/bitacora/legal-1': { id: 'legal-1', agente: 'legal', ts: HOY, estado: 'ok', hizo: 'Boletín revisado', hallazgos: [], para: 'oreja-ceo', pedido: '¿Llevamos el contrato al abogado?' },
+    'data/users/u1/agentes/bitacora/radar-1': { id: 'radar-1', agente: 'radar', ts: HOY, estado: 'fallo', hizo: 'No pudo leer', hallazgos: [], para: 'todos', pedido: '' },
+  };
+  const { ctx, page, errors } = await open({ owner: true, uid: 'u1', seed }, { width: 390, height: 844 });
+  assert.match(await page.textContent('#tp-cv'), /1 rutina con falla/);
+  await go(page, 'cloty');
+  const txt = await page.textContent('#cv-parte');
+  assert.match(txt, /Definir si se firma con la marca X/);
+  assert.match(txt, /Barrido/);
+  assert.match(txt, /¿Llevamos el contrato al abogado\?/);
+  assert.match(txt, /Radar · fallo/);
+  await page.click('#cv-parte button:has-text("Responder")');
+  await page.fill('#cv-parte .gaddh input', 'Sí, llevalo el jueves');
+  await page.click('#cv-parte .gaddh button');
+  await page.waitForFunction(() => !document.getElementById('cv-parte').textContent.includes('¿Llevamos el contrato'));
+  const resp = Object.values(await store(page)).find((v) => v && v.agente === 'oreja-ceo');
+  assert.equal(resp.para, 'legal');
+  assert.equal(resp.ref, 'legal-1');
+  assert.equal(resp.pedido, 'Sí, llevalo el jueves');
+  assert.ok((await overflow(page)) <= 1);
   assert.deepEqual(errors, []);
   await ctx.close();
 });

@@ -17,7 +17,7 @@
     var docs = Object.keys(store).filter(function (p) { return parent(p) === c; }).map(function (p) {
       return { id: p.split('/').pop(), data: function () { return clone(store[p]); } };
     });
-    if (opts && opts.orderBy) docs.sort(function (a, b) { var x = a.data()[opts.orderBy], y = b.data()[opts.orderBy]; return x < y ? -1 : x > y ? 1 : 0; });
+    if (opts && opts.orderBy) docs.sort(function (a, b) { var x = a.data()[opts.orderBy], y = b.data()[opts.orderBy], s = opts.dir === 'desc' ? -1 : 1; return (x < y ? -1 : x > y ? 1 : 0) * s; });
     if (opts && opts.limit) docs = docs.slice(0, opts.limit);
     return { empty: !docs.length, docs: docs, metadata: { fromCache: false } };
   }
@@ -27,7 +27,7 @@
   }
   function query(c, opts) {
     return {
-      orderBy: function (k) { return query(c, Object.assign({}, opts, { orderBy: k })); },
+      orderBy: function (k, dir) { return query(c, Object.assign({}, opts, { orderBy: k, dir: dir })); },
       limit: function (n) { return query(c, Object.assign({}, opts, { limit: n })); },
       doc: function (id) { return docRef(c + '/' + id); },
       onSnapshot: function (fn) { var s = { fn: fn, opts: opts }; (colSubs[c] = colSubs[c] || []).push(s); later(function () { fn(colSnap(c, opts)); }); return function () {}; },
@@ -44,8 +44,30 @@
   }
   var db = { doc: docRef, collection: function (c) { return query(c, {}); } };
   var user = { isOwner: function () { return Promise.resolve(cfg.owner !== false); }, id: function () { return Promise.resolve(cfg.uid || 'u1'); } };
-  var sample = function () { return Promise.reject({ code: 'not_granted' }); };
+  // sample: sin guion rechaza not_granted; con cfg.sampleScript, cada llamada consume un turno
+  // [{tool, input} | {text}] y ejecuta las herramientas de la página en orden.
+  var script = cfg.sampleScript ? cfg.sampleScript.slice() : null;
+  var S = window.__OREJA_SAMPLE__ = { calls: [], results: [] };
+  var sample = function (input, opts) {
+    if (!script) return Promise.reject({ code: 'not_granted' });
+    opts = opts || {};
+    var turn = script.shift() || [{ text: 'ok' }];
+    S.calls.push({ input: input, tools: (opts.tools || []).map(function (t) { return t.name; }) });
+    return (async function () {
+      var text = '';
+      for (var i = 0; i < turn.length; i++) {
+        var st = turn[i];
+        if (st.tool) {
+          var t = (opts.tools || []).filter(function (x) { return x.name === st.tool; })[0];
+          try { S.results.push({ tool: st.tool, ok: true, r: await t.execute(st.input, { signal: opts.signal || new AbortController().signal }) }); }
+          catch (e) { S.results.push({ tool: st.tool, ok: false, err: e.message }); }
+        } else { text += st.text; if (opts.onText) opts.onText({ text: text, delta: st.text }); }
+      }
+      return { text: text, truncated: false, modelTierApplied: 'default' };
+    })();
+  };
   sample.json = function () { return Promise.reject({ code: 'not_granted' }); };
+  sample.limits = function () { return Promise.resolve({ maxPromptBytes: 262144, tools: { maxCount: 20 } }); };
   var mcp = {
     watchTool: function (s, t, i, h) { later(function () { h({ type: 'data', result: { payload: { events: [] }, cache: { storedAt: Date.now() } } }); }); return function () {}; },
     callTool: function () { return Promise.resolve({ payload: { id: 'evt1' } }); },

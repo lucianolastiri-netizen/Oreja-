@@ -1,5 +1,5 @@
   "use strict";
-  var VIEWS=['home','proyectos','agora','golden','negocios','habitos','poder','cierre','hoy','frentes','temas','radar','finanzas','inversiones','captura','doctrina','sponsors','admision'];
+  var VIEWS=['home','proyectos','agora','golden','negocios','habitos','poder','cierre','hoy','frentes','temas','radar','finanzas','inversiones','captura','doctrina','sponsors','admision','cloty'];
   try{localStorage.removeItem('oreja_fin_v1');localStorage.removeItem('oreja_finhide');}catch(e){}
   function show(v){ if(VIEWS.indexOf(v)<0)v='home'; VIEWS.forEach(function(id){ var el=document.getElementById('v-'+id); if(el)el.classList.toggle('active',id===v); }); try{window.scrollTo(0,0);}catch(e){} }
   window.addEventListener('hashchange',function(){ show((location.hash||'').replace('#','')); });

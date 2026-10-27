@@ -1,0 +1,25 @@
+  <!-- ================= CLOTY EN VIVO ================= -->
+  <section class="view" id="v-cloty">
+    <div class="vbar"><a class="back" href="#home">← Oreja</a><h2>Cloty en vivo</h2><span class="vk" id="cv-k">—</span></div>
+    <div class="privacy"><span class="lock">🔒</span><div id="cv-priv">Conectando tu espacio privado…</div></div>
+    <div class="card" id="cv-locked" hidden><h3>Sección privada</h3><p class="hint">Cloty en vivo es solo del titular.</p></div>
+    <div id="cv-body">
+      <div class="card" id="cv-parte"></div>
+      <div class="card" id="cv-chat"><h3>Hablá con Cloty <span class="k">lee todo Oreja · cambia solo con tu OK</span></h3>
+        <div class="cvquick" id="cv-quick"></div>
+        <div class="cvlog" id="cv-log" aria-live="polite"></div>
+        <div class="capture">
+          <textarea id="cv-in" rows="2" placeholder="Preguntale o pedile algo. Ej.: pasá lo de Rodrigo al jueves 10 h y agendalo"></textarea>
+          <div class="crow">
+            <button class="btn rec" id="cv-mic" type="button">● Dictar</button>
+            <button class="btn ai" id="cv-send" type="button">Enviar</button>
+            <button class="btn" id="cv-stop" type="button" hidden>Detener</button>
+            <button class="minibtn" id="cv-new" type="button">Nueva charla</button>
+            <span class="cstatus" id="cv-st"></span>
+          </div>
+        </div>
+        <p class="hint" id="cv-off" hidden></p>
+      </div>
+    </div>
+  </section>
+
