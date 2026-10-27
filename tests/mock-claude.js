@@ -35,7 +35,7 @@
   }
   function docRef(p) {
     return {
-      set: function (o) { store[p] = clone(o); writes.push({ op: 'set', path: p }); notify(p); return Promise.resolve(); },
+      set: function (o) { store[p] = clone(o); writes.push({ op: 'set', path: p, data: clone(o) }); notify(p); return Promise.resolve(); },
       get: function () { return Promise.resolve(docSnap(p)); },
       delete: function () { delete store[p]; writes.push({ op: 'delete', path: p }); notify(p); return Promise.resolve(); },
       collection: function (n) { return query(p + '/' + n, {}); },

@@ -8,6 +8,7 @@
   var CVQ=[['ahora','¿Qué hago ahora?','Mirá mi agenda de hoy, lo vencido y mis proyectos en foco. Decime UNA sola cosa para hacer ahora y por qué, según mi jerarquía. Si estoy evitando algo, decímelo.'],
     ['desafio','Desafiame','Revisá cómo vengo: temas reprogramados, oportunidades vencidas, conversaciones que evito, Europa y el peso de Dogos. Decime sin vueltas el patrón que más me está costando y qué decisión tomo hoy.'],
     ['dia','Armame el día','Con la agenda de hoy y lo abierto, armame el día en bloques con lo que va en cada uno. Si algo choca con la jerarquía, marcalo y proponé qué mover.'],
+    ['vencidos','Limpiemos lo vencido','Leé mis temas vencidos, los reprogramados 2+ veces y los que tengan la fecha mal cargada. Proponeme en UN lote qué hacer con cada uno (cerrar, descartar, reprogramar, delegar o esperando) con el motivo en una línea y, si se cierra, la línea de cierre. Primero Golden y Europa. Sé exigente: lo que lleva semanas vencido sin moverse probablemente hay que descartarlo o delegarlo, no reprogramarlo otra vez.'],
     ['cierre','Cerremos el día','Repasemos el día: qué se cerró, qué venció y qué quedó sin próximo paso. Proponeme los cambios concretos y hacelos cuando te dé el OK.'],
     ['pedidos','Pedidos de los agentes','Leé los pedidos abiertos que me dejaron mis agentes y ayudame a resolverlos de a uno: qué conviene y qué le respondo a cada agente.']];
   var CVAG={gestion:'Gestión',resumen:'Resumen',formacion:'Formación',barrido:'Barrido',bitacora:'Bitácora','cierre-tarde':'Cierre de la tarde',parte:'Parte diario',legal:'Legal',radar:'Radar','cierre-viernes':'Cierre de viernes',guardia:'Guardia',motor:'Motor de negocios',finanzas:'Finanzas',revision:'Revisión mensual',whatsapp:'WhatsApp','cloty-vivo':'Cloty en vivo','oreja-ceo':'Oreja'};
@@ -64,13 +65,13 @@
 
   // ----- lo que Cloty ve sin pedir nada (entra en el prompt) -----
   function cvCut(s,n){ s=String(s==null?'':s); return s.length>n?s.slice(0,n-1)+'…':s; }
-  function cvTema(x){ return {id:x.id,t:cvCut(x.t,120),frente:x.frente||'otro',estado:x.est||'nuevo',vence:x.fecha||'',hora:x.hora||'',prox:cvCut(x.prox,120),quien:x.quien||'',reprog:x.reprog||0,vencida:gVenc(x),enCalendar:!!x.calId}; }
+  function cvTema(x){ return {id:x.id,t:cvCut(x.t,120),frente:x.frente||'otro',estado:x.est||'nuevo',vence:x.fecha?(okDate(x.fecha)?x.fecha:'FECHA MAL CARGADA ('+x.fecha+')'):'',hora:x.hora||'',prox:cvCut(x.prox,120),quien:x.quien||'',reprog:x.reprog||0,vencida:gVenc(x),enCalendar:!!x.calId}; }
   function cvEventos(dias){ var lim=dayKey(-dias); return (((CALLAST&&CALLAST.events)||[]).filter(function(e){ return e&&e.status!=='cancelled'; }).map(function(e){ var s=(e.start&&(e.start.dateTime||e.start.date))||'', f=(e.end&&(e.end.dateTime||e.end.date))||'';
       return {dia:s.slice(0,10),ini:s.length>10?s.slice(11,16):'todo el día',fin:f.length>10?f.slice(11,16):'',t:cvCut(e.summary,100)}; }).filter(function(e){ return e.dia&&e.dia<=lim; })); }
   function cvSnapshot(){ var t=todayKey(), now=new Date(), all=gAll(), ab=all.filter(function(x){ return !gClosed(x); }).sort(gSort);
     var L=['HOY: '+now.toLocaleDateString('es-AR',{weekday:'long',day:'numeric',month:'long',year:'numeric'})+', '+now.toLocaleTimeString('es-AR',{hour:'2-digit',minute:'2-digit'})+' (Córdoba).'];
     L.push('GESTIÓN: '+ab.length+' abiertos, '+ab.filter(gVenc).length+' vencidos, '+ab.filter(function(x){ return (x.reprog||0)>=2; }).length+' reprogramados 2+ veces. Los primeros por prioridad:');
-    ab.slice(0,12).forEach(function(x){ var c=cvTema(x); L.push('- ['+c.id+'] '+c.t+' · '+frenteName(c.frente)+' · '+estName(c.estado)+(c.vence?' · vence '+c.vence+(c.vencida?' (VENCIDO)':''):' · sin fecha')+(c.prox?' · próximo: '+c.prox:' · sin próximo paso')+(c.reprog>=2?' · movido '+c.reprog+'×':'')); });
+    ab.slice(0,12).forEach(function(x){ var c=cvTema(x); L.push('- ['+c.id+'] '+c.t+' · '+frenteName(c.frente)+' · '+estName(c.estado)+(c.vence?' · vence '+c.vence+(c.vencida&&okDate(x.fecha)?' (VENCIDO)':''):' · sin fecha')+(c.prox?' · próximo: '+c.prox:' · sin próximo paso')+(c.reprog>=2?' · movido '+c.reprog+'×':'')); });
     var ev=cvEventos(0); L.push('AGENDA DE HOY: '+(ev.length?ev.map(function(e){ return e.ini+(e.fin?'-'+e.fin:'')+' '+e.t; }).join(' | '):(CALLAST?'sin eventos':'Calendar no cargado')));
     var foco=pjAll().filter(function(p){ return p.est==='foco'; }); L.push('PROYECTOS EN FOCO: '+(foco.length?foco.map(function(p){ return p.t+(p.prox?' (próximo: '+cvCut(p.prox,80)+')':' (sin próximo paso)')+(p.decision?' decide '+p.decision:''); }).join(' | '):'ninguno'));
     var av=ngAll().filter(function(x){ return (x.etapa||'idea')==='avanza'; }); if(av.length) L.push('NEGOCIOS AVANZANDO: '+av.map(function(x){ var f=x.plan2&&x.plan2.decision.fecha; return x.t+(f?' (decide '+f+')':' (sin fecha de decisión)'); }).join(' | '));
@@ -87,7 +88,7 @@
       'JERARQUÍA: GOLDEN (foco inviolable) > EUROPA (ventana semanal) > BS GROUP (proyectos elegidos) > DOGOS (transición). Trade-off: Aprendizaje > Relación > ROI > Marca > Urgencia; la urgencia sola nunca alcanza. No negociables: Salud, Familia, Calidad, Ingresos.\n'+
       'PRINCIPIOS DE SU DOCTRINA:\n'+(pr||'- (sin cargar)')+'\n'+ngCtx()+
       'DATOS: usá solo lo que está acá abajo o lo que leas con la herramienta leer. Nunca inventes fechas, montos, nombres ni ids. Si falta un dato, decilo.\n'+
-      'ACCIONES: para cambiar algo usá las herramientas; cada cambio le pide confirmación a Oreja en pantalla. No digas que algo está hecho hasta que la herramienta devuelva ok. Si no confirma, no insistas: preguntá qué ajustar. Para cerrar o escalar un tema hace falta una línea de cierre (regla de Oreja). Lo que le respondas a un agente queda en la bitácora: nunca pongas ahí plata personal, familia ni temas delicados.\n\n'+
+      'ACCIONES: para cambiar varios temas a la vez usá cambiar_en_lote (una sola tarjeta). Para cambiar algo usá las herramientas; cada cambio le pide confirmación a Oreja en pantalla. No digas que algo está hecho hasta que la herramienta devuelva ok. Si no confirma, no insistas: preguntá qué ajustar. Para cerrar o escalar un tema hace falta una línea de cierre (regla de Oreja). Lo que le respondas a un agente queda en la bitácora: nunca pongas ahí plata personal, familia ni temas delicados.\n\n'+
       'ESTADO DE OREJA AHORA:\n'+cvSnapshot(); }
 
   // ----- confirmación en pantalla -----
@@ -110,7 +111,7 @@
   function cvLeer(i){ var s=String(i.seccion||''), q=String(i.texto||'').toLowerCase().trim(), t=todayKey();
     function has(o){ if(!q)return true; return JSON.stringify(o).toLowerCase().indexOf(q)>=0; }
     cvPaso('Leyendo '+s+(q?' ("'+q+'")':'')+'…');
-    if(s==='gestion') return gAll().filter(function(x){ return (q||!gClosed(x))&&has(x); }).sort(gSort).slice(0,25).map(function(x){ var c=cvTema(x); c.detalle=cvCut(x.d,200); c.cierre=x.cierre||''; c.ultimo=((x.hist||[]).slice(-1)[0]||{}).txt||''; return c; });
+    if(s==='gestion') return gAll().filter(function(x){ return (q||!gClosed(x))&&has(x)&&(!i.solo_vencidos||gVenc(x)||(x.reprog||0)>=2||(x.fecha&&!okDate(x.fecha))); }).sort(gSort).slice(0,i.solo_vencidos?40:25).map(function(x){ var c=cvTema(x); c.detalle=cvCut(x.d,200); c.cierre=x.cierre||''; c.ultimo=((x.hist||[]).slice(-1)[0]||{}).txt||''; return c; });
     if(s==='proyectos') return pjAll().filter(has).map(function(p){ var its=p.items||[]; return {id:p.id,t:p.t,frente:p.frente,estado:p.est,prox:p.prox||'',quien:p.quien||'',decision:p.decision||'',entregables:its.filter(function(x){ return x.ok; }).length+'/'+its.length,nota:cvCut(p.nota,160)}; });
     if(s==='negocios') return ngAll().filter(has).slice(0,20).map(function(x){ var v=ngVer(x); return {id:x.id,t:x.t,lado:x.lado,etapa:x.etapa||'idea',test:v.n===5?v.si+'/5':'sin filtrar',decision:x.plan2?x.plan2.decision:null,detalle:cvCut(x.d,200)}; });
     if(s==='radar') return rdAll().filter(function(x){ return (x.est||'nuevo')!=='descartada'&&has(x); }).slice(0,15).map(function(x){ return {id:x.id,tipo:x.tipo,t:x.t,frente:x.frente,estado:x.est||'nuevo',porQueAhora:cvCut(x.valor,160),prox:cvCut(x.prox,120)}; });
@@ -140,15 +141,50 @@
     if(i.cierre)ch.push(['Cierre',String(i.cierre)]); if(i.nota)ch.push(['A la bitácora',String(i.nota)]);
     if(!ch.length)return {ok:true,sinCambios:true};
     if(!await cvConfirm('Cambiar "'+cvCut(it.t,70)+'"',ch,ctx.signal))noConf();
-    var mueve=false;
-    if(f!=null&&f!==(it.fecha||'')){ if(it.fecha&&f&&f>it.fecha){ it.reprog=(it.reprog||0)+1; gHist(it,'Reprogramada '+dm(it.fecha)+' → '+dm(f)); } else gHist(it,'Fecha: '+(f?dm(f):'sin fecha')); it.fecha=f; mueve=true; }
+    cvAplicar(it,{fecha:f,hora:h,prox:i.prox,quien:i.quien,frente:i.frente,est:est,cierre:i.cierre,nota:i.nota}); renderGest(); cvActs.push('actualizó un tema de Gestión'); return {ok:true}; }
+  // Aplica cambios ya validados y confirmados a un tema, con la misma bitácora que Gestión. Campos null/undefined no se tocan.
+  function cvAplicar(it,c){ var mueve=false, f=c.fecha, h=c.hora, est=c.est;
+    if(f!=null&&f!==(it.fecha||'')){ if(okDate(it.fecha)&&it.fecha&&f&&f>it.fecha){ it.reprog=(it.reprog||0)+1; gHist(it,'Reprogramada '+dm(it.fecha)+' → '+dm(f)); } else gHist(it,'Fecha: '+(f?dm(f):'sin fecha')); it.fecha=f; mueve=true; }
     if(h!=null&&h!==(it.hora||'')){ it.hora=h; gHist(it,'Hora: '+(h||'sin hora')); mueve=true; }
-    if(i.prox!=null&&String(i.prox)!==(it.prox||'')){ it.prox=String(i.prox); gHist(it,'Próximo paso: '+it.prox); }
-    if(i.quien!=null&&String(i.quien)!==(it.quien||'')){ it.quien=String(i.quien); gHist(it,'Dueño / quién espera: '+it.quien); }
-    if(i.frente!=null&&cvFrente(i.frente)!==(it.frente||'otro')){ it.frente=cvFrente(i.frente); gHist(it,'Frente: '+frenteName(it.frente)); }
-    if(est&&est!==it.est){ it.est=est; if(est!=='escalado'&&GNOTE[est])it.cierre=String(i.cierre); gHist(it,'Estado → '+estName(est)+(i.cierre?': '+i.cierre:'')); }
-    if(i.nota)gHist(it,String(i.nota));
-    gSave(it); if(mueve)calSync(it); renderGest(); cvActs.push('actualizó un tema de Gestión'); return {ok:true}; }
+    if(c.prox!=null&&String(c.prox)!==(it.prox||'')){ it.prox=String(c.prox); gHist(it,'Próximo paso: '+it.prox); }
+    if(c.quien!=null&&String(c.quien)!==(it.quien||'')){ it.quien=String(c.quien); gHist(it,'Dueño / quién espera: '+it.quien); }
+    if(c.frente!=null&&cvFrente(c.frente)!==(it.frente||'otro')){ it.frente=cvFrente(c.frente); gHist(it,'Frente: '+frenteName(it.frente)); }
+    if(est&&est!==it.est){ it.est=est; if(est!=='escalado'&&GNOTE[est])it.cierre=String(c.cierre); gHist(it,'Estado → '+estName(est)+(c.cierre?': '+c.cierre:'')); }
+    if(c.nota)gHist(it,String(c.nota));
+    gSave(it); if(mueve)calSync(it); }
+  // ----- cambios en lote: una sola tarjeta, tema por tema -----
+  var CVLOTE={cerrar:['hecho','Cerrar'],descartar:['descartado','Descartar'],reprogramar:[null,'Reprogramar'],delegar:['esperando','Delegar'],esperando:['esperando','Esperando a otro']};
+  function cvConfirmLote(filas,signal){ return new Promise(function(res){ var c=el('div','cvconf'); c.appendChild(el('h4',null,'Ordenar '+filas.length+' tema'+(filas.length>1?'s':'')+' de Gestión'));
+      c.appendChild(el('span','gm','Destildá lo que no quieras. Si se cierra, revisá la línea de cierre.'));
+      var rows=filas.map(function(fl){ var r=el('div','cvlrow'), cb=el('input'); cb.type='checkbox'; cb.checked=true; cb.setAttribute('aria-label','Aplicar: '+fl.it.t); r.appendChild(cb);
+        var tx=el('div','cvltx'); tx.appendChild(el('b',null,cvCut(fl.it.t,100)));
+        tx.appendChild(el('span',null,fl.a[1]+(fl.f?' al '+dm(fl.f):'')+(fl.c.quien?' → '+fl.c.quien:'')+(fl.c.prox?' · próximo: '+cvCut(fl.c.prox,90):'')));
+        if(fl.c.motivo)tx.appendChild(el('span','gm',cvCut(fl.c.motivo,160)));
+        var ci=null; if(fl.a[0]==='hecho'||fl.a[0]==='descartado'){ ci=el('input','p2in'); ci.type='text'; ci.value=String(fl.c.cierre||''); ci.placeholder='línea de cierre'; ci.style.maxWidth='none'; ci.setAttribute('aria-label','Línea de cierre: '+fl.it.t); tx.appendChild(ci); }
+        r.appendChild(tx); c.appendChild(r); return {fila:fl,cb:cb,ci:ci}; });
+      var msg=el('span','fmsg',''), ft=el('div','gfoot'), ok=el('button','btn rec','Aplicar'), no=el('button','btn','No'); ok.type='button'; no.type='button'; msg.style.color='var(--crit)';
+      function cnt(){ var n=rows.filter(function(r){ return r.cb.checked; }).length; ok.textContent='Aplicar '+n; ok.disabled=!n; }
+      rows.forEach(function(r){ r.cb.addEventListener('change',cnt); }); cnt();
+      var done=false; function fin(v){ if(done)return; done=true; ft.remove(); rows.forEach(function(r){ r.cb.disabled=true; if(r.ci)r.ci.disabled=true; }); c.classList.add(v?'ok':'no'); c.appendChild(el('span','gm',v?('Aplicado: '+v.length):'No confirmado')); res(v); }
+      ok.addEventListener('click',function(){ var sel=rows.filter(function(r){ return r.cb.checked; }), falta=sel.filter(function(r){ return r.ci&&!r.ci.value.trim(); });
+        if(falta.length){ msg.textContent='Falta la línea de cierre en '+falta.length+' tema'+(falta.length>1?'s':''); falta[0].ci.focus(); return; }
+        fin(sel.map(function(r){ return {fila:r.fila,cierre:r.ci?r.ci.value.trim():''}; })); });
+      no.addEventListener('click',function(){ fin(null); }); if(signal)signal.addEventListener('abort',function(){ fin(null); });
+      ft.appendChild(ok); ft.appendChild(no); ft.appendChild(msg); c.appendChild(ft); cvLog.appendChild(c); cvScroll(); }); }
+  async function cvLote(i,ctx){ var L=Array.isArray(i.cambios)?i.cambios.slice(0,15):[]; if(!L.length)throw new Error('No hay cambios para proponer.');
+    var filas=[], errores=[], vistos={};
+    L.forEach(function(c){ c=c||{}; var it=G2[String(c.id||'')], a=CVLOTE[c.accion], f=null;
+      if(!it){ errores.push((c.id||'?')+': no existe'); return; } if(!a){ errores.push(it.t+': acción inválida'); return; } if(vistos[it.id]){ errores.push(it.t+': repetido'); return; }
+      try{ f=c.fecha?cvFecha(c.fecha,'La fecha'):null; }catch(e){ errores.push(it.t+': '+e.message); return; }
+      if(c.accion==='reprogramar'&&!f){ errores.push(it.t+': reprogramar necesita fecha'); return; }
+      if(c.accion==='delegar'&&!String(c.quien||'').trim()){ errores.push(it.t+': delegar necesita a quién'); return; }
+      vistos[it.id]=1; filas.push({it:it,c:c,a:a,f:f}); });
+    if(!filas.length)throw new Error('Ningún cambio válido: '+errores.join('; '));
+    var sel=await cvConfirmLote(filas,ctx.signal); if(!sel||!sel.length)noConf();
+    sel.forEach(function(s){ var c=s.fila.c, a=s.fila.a; cvAplicar(s.fila.it,{fecha:s.fila.f,prox:c.prox!=null?c.prox:null,quien:c.quien!=null?c.quien:null,est:a[0],cierre:s.cierre,nota:c.motivo?'Con Cloty: '+c.motivo:''}); });
+    renderGest(); cvActs.push('ordenó '+sel.length+' tema'+(sel.length>1?'s':'')+' de Gestión en lote');
+    var hechos={}; sel.forEach(function(s){ hechos[s.fila.it.id]=1; });
+    return {aplicados:Object.keys(hechos),omitidosPorOreja:filas.filter(function(f){ return !hechos[f.it.id]; }).map(function(f){ return f.it.id; }),rechazadosPorValidacion:errores}; }
   async function cvAgendar(i,ctx){ var it=G2[String(i.id||'')]; if(!it)throw new Error('No existe el tema '+i.id+'.');
     if(!MCP)throw new Error('Google Calendar no está disponible en esta vista.'); if(!it.fecha)throw new Error('El tema no tiene fecha: primero ponele fecha con actualizar_tema.');
     if(it.calId)return {ok:true,yaEstaba:true};
@@ -178,11 +214,13 @@
   var S={type:'string'};
   var CVTOOLS=[
     {name:'leer',description:'Lee una sección de Oreja y devuelve sus datos actuales en JSON. Usala antes de opinar o de cambiar algo que no está en el resumen.',
-      inputSchema:{type:'object',properties:{seccion:{type:'string',enum:['gestion','proyectos','negocios','radar','posicion','habitos','agenda','finanzas','bitacora','notas']},texto:{type:'string',description:'filtro opcional por texto'},dias:{type:'number',description:'solo agenda: días hacia adelante (0 = hoy, máx 7)'}},required:['seccion']},execute:function(i){ return cvLeer(i||{}); }},
+      inputSchema:{type:'object',properties:{seccion:{type:'string',enum:['gestion','proyectos','negocios','radar','posicion','habitos','agenda','finanzas','bitacora','notas']},texto:{type:'string',description:'filtro opcional por texto'},dias:{type:'number',description:'solo agenda: días hacia adelante (0 = hoy, máx 7)'},solo_vencidos:{type:'boolean',description:'solo gestion: vencidos, reprogramados 2+ veces y fechas mal cargadas (hasta 40)'}},required:['seccion']},execute:function(i){ return cvLeer(i||{}); }},
     {name:'crear_tema',description:'Crea un tema en Gestión (pide confirmación a Oreja). Devuelve {ok,id}.',
       inputSchema:{type:'object',properties:{titulo:S,frente:{type:'string',enum:FRENTES.map(function(f){ return f[0]; })},fecha:{type:'string',description:'AAAA-MM-DD, solo si Oreja la dijo'},hora:{type:'string',description:'HH:MM'},prox:{type:'string',description:'próxima acción concreta'},quien:S,prioridad:{type:'string',enum:['crit','warn','ok']},detalle:S},required:['titulo','frente']},execute:cvCrearTema},
     {name:'actualizar_tema',description:'Cambia fecha, hora, próximo paso, dueño, frente o estado de un tema de Gestión por id, o suma una nota a su bitácora (pide confirmación). Cerrar o escalar exige "cierre".',
       inputSchema:{type:'object',properties:{id:S,fecha:S,hora:S,prox:S,quien:S,frente:S,estado:{type:'string',enum:CVEST},cierre:{type:'string',description:'línea de cierre, obligatoria para hecho, descartado o escalado'},nota:S},required:['id']},execute:cvActualizarTema},
+    {name:'cambiar_en_lote',description:'Propone hasta 15 cambios de Gestión en UNA tarjeta: Oreja tilda cuáles aplicar y revisa las líneas de cierre. Usala para limpiar vencidos. Devuelve aplicados, omitidosPorOreja y rechazadosPorValidacion.',
+      inputSchema:{type:'object',properties:{cambios:{type:'array',items:{type:'object',properties:{id:S,accion:{type:'string',enum:Object.keys(CVLOTE)},fecha:{type:'string',description:'AAAA-MM-DD; obligatoria para reprogramar'},quien:{type:'string',description:'obligatorio para delegar'},prox:S,cierre:{type:'string',description:'línea de cierre propuesta para cerrar o descartar'},motivo:{type:'string',description:'por qué, en una línea'}},required:['id','accion','motivo']}}},required:['cambios']},execute:cvLote},
     {name:'agendar_tema',description:'Crea en Google Calendar el evento de un tema que ya tiene fecha, con avisos 24 h y 1 h antes (pide confirmación).',
       inputSchema:{type:'object',properties:{id:S},required:['id']},execute:cvAgendar},
     {name:'registrar_movimiento',description:'Registra un ingreso o egreso confirmado en Finanzas (pide confirmación). Montos en pesos: "85 lucas" = 85000.',

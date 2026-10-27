@@ -236,3 +236,79 @@ test('Agentes: el parte y los pedidos abiertos se ven, y la respuesta vuelve al 
   assert.deepEqual(errors, []);
   await ctx.close();
 });
+
+test('Cloty en vivo: ordena vencidos en lote, con selección y línea de cierre obligatoria', async () => {
+  const v = (id, t, fecha, reprog) => ({ id, t, frente: 'golden', est: 'curso', fecha, prox: 'algo', hist: [], creado: HOY, reprog: reprog || 0 });
+  const seed = {
+    'data/users/u1/gestion/items/a': v('a', 'Mandar contrato a la marca', '2026-10-01'),
+    'data/users/u1/gestion/items/b': v('b', 'Llamar al municipio', '2026-10-10', 1),
+    'data/users/u1/gestion/items/c': v('c', 'Revisar planilla de cantina', '2026-10-05'),
+  };
+  const script = [[{ tool: 'cambiar_en_lote', input: { cambios: [
+    { id: 'a', accion: 'cerrar', cierre: '', motivo: 'Ya se mandó por mail el 20/10' },
+    { id: 'b', accion: 'reprogramar', fecha: '2026-11-10', motivo: 'Depende de la habilitación' },
+    { id: 'c', accion: 'delegar', quien: 'Chino', motivo: 'Es operativo' },
+    { id: 'zzz', accion: 'cerrar', motivo: 'no existe' },
+  ] } }, { text: 'Hecho lo que confirmaste.' }]];
+  const { ctx, page, errors } = await open({ owner: true, uid: 'u1', sampleScript: script, seed }, { width: 390, height: 844 });
+  await enviar(page, 'Limpiemos lo vencido');
+  await page.waitForSelector('.cvconf .cvlrow');
+  assert.equal(await page.locator('.cvconf .cvlrow').count(), 3);
+  assert.ok((await overflow(page)) <= 1, 'la tarjeta de lote desborda en celular');
+  await page.locator('.cvconf .cvlrow input[type=checkbox]').nth(2).uncheck();
+  await page.click('.cvconf button:has-text("Aplicar 2")');
+  assert.match(await page.textContent('.cvconf'), /Falta la línea de cierre en 1 tema/);
+  await page.fill('.cvconf .cvlrow input[type=text]', 'Mandado el 20/10, confirmó recepción');
+  await page.click('.cvconf button:has-text("Aplicar 2")');
+  await page.waitForSelector('.cvmsg.a:has-text("Hecho lo que confirmaste.")');
+  const st = await store(page);
+  const a = st['data/users/u1/gestion/items/a'], b = st['data/users/u1/gestion/items/b'], c = st['data/users/u1/gestion/items/c'];
+  assert.equal(a.est, 'hecho'); assert.equal(a.cierre, 'Mandado el 20/10, confirmó recepción');
+  assert.equal(b.fecha, '2026-11-10'); assert.equal(b.reprog, 2);
+  assert.equal(c.est, 'curso'); assert.equal(c.quien || '', '');
+  const r = (await resultados(page))[0].r;
+  assert.deepEqual(r.aplicados.sort(), ['a', 'b']);
+  assert.deepEqual(r.omitidosPorOreja, ['c']);
+  assert.match(r.rechazadosPorValidacion.join(' '), /zzz: no existe/);
+  assert.deepEqual(errors, []);
+  await ctx.close();
+});
+
+test('Proyectos: escribir la fecha de decisión con el teclado no guarda años intermedios ni suma reprogramaciones falsas', async () => {
+  const seed = { 'data/users/u1/proyectos/items/p1': { id: 'p1', t: 'Agencia Uruguay', frente: 'golden', est: 'activo', decision: '2026-11-01', items: [], gestion: [], creado: HOY } };
+  const { ctx, page, errors } = await open({ owner: true, uid: 'u1', seed }, { width: 1280, height: 900, locale: 'en-US' }, { locale: 'en-US' });
+  await go(page, 'proyectos');
+  await page.click('#pj-filt .ptab:has-text("Activos")');
+  await page.click('#pj-list .ghead');
+  const di = page.locator('#pj-list input[type=date]').first();
+  await di.focus();
+  await page.keyboard.type('02012027');
+  await page.click('#v-proyectos .vbar h2'); // salir del campo
+  await page.waitForTimeout(300);
+  const ws = await page.evaluate(() => window.__OREJA_DB__.writes.filter((w) => w.path === 'data/users/u1/proyectos/items/p1').map((w) => w.data));
+  assert.ok(ws.length >= 1, 'no se guardó la fecha');
+  ws.forEach((d) => assert.match(d.decision, /^20\d\d-\d\d-\d\d$/, 'se guardó una fecha intermedia: ' + d.decision));
+  assert.equal(ws[ws.length - 1].decision, '2027-02-01');
+  assert.equal(ws[ws.length - 1].reprog || 0, 1);
+  assert.deepEqual(errors, []);
+  await ctx.close();
+});
+
+test('Gestión: escribir la fecha con el teclado guarda solo la fecha final y una sola reprogramación', async () => {
+  const seed = { 'data/users/u1/gestion/items/og': { id: 'og', t: 'Sí, no o fecha a la agencia', frente: 'otro', est: 'curso', fecha: '2026-10-20', prox: 'Responder', hist: [], creado: HOY, reprog: 0 } };
+  const { ctx, page, errors } = await open({ owner: true, uid: 'u1', seed }, { width: 1280, height: 900, locale: 'en-US' }, { locale: 'en-US' });
+  await go(page, 'temas');
+  await page.click('#gest-list .ghead');
+  await page.locator('#gest-list input[type=date]').first().focus();
+  await page.keyboard.type('02012027');
+  await page.click('#v-temas .vbar h2');
+  await page.waitForTimeout(300);
+  const ws = await page.evaluate(() => window.__OREJA_DB__.writes.filter((w) => w.path === 'data/users/u1/gestion/items/og').map((w) => w.data));
+  ws.forEach((d) => assert.match(d.fecha, /^20\d\d-\d\d-\d\d$/, 'se guardó una fecha intermedia: ' + d.fecha));
+  const fin = ws[ws.length - 1];
+  assert.equal(fin.fecha, '2027-02-01');
+  assert.equal(fin.reprog, 1);
+  assert.equal(fin.hist.filter((h) => /Reprogramada|Fecha:/.test(h.txt)).length, 1, 'la bitácora tiene que registrar un solo cambio de fecha');
+  assert.deepEqual(errors, []);
+  await ctx.close();
+});

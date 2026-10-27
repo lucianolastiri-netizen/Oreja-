@@ -67,7 +67,9 @@
   function okTime(v){ return !v||/^\d\d:\d\d$/.test(v); }
   function stableInput(inp,getOld,commit,valid){ var pend=null, tm=null;
     function flush(){ clearTimeout(tm); if(pend===null)return; var v=pend; pend=null; if(!valid(v)){ inp.value=getOld()||''; return; } if(v===(getOld()||''))return; commit(v); }
-    inp.addEventListener('change',function(){ pend=inp.value; clearTimeout(tm); if(document.activeElement!==inp){ flush(); return; } if(valid(pend)) tm=setTimeout(flush,2500); });
+    // No se decide por el foco: al tipear el año, Chrome dispara change con años intermedios (0002, 0020, 0202) y a veces
+    // reporta el campo sin foco. Se guarda al salir del campo o tras una pausa, y nunca un vacío a mitad de tipeo.
+    inp.addEventListener('change',function(){ pend=inp.value; clearTimeout(tm); if(pend&&valid(pend)) tm=setTimeout(flush,1500); });
     inp.addEventListener('blur',flush);
     inp.addEventListener('keydown',function(e){ if(e.key==='Enter'){ e.preventDefault(); inp.blur(); } }); }
   function gRefresh(){ if(listEl.contains(document.activeElement)){ gDeferred=true; return; } renderGest(); }
@@ -84,7 +86,7 @@
     quien.addEventListener('change',function(){ var v=quien.value.trim(); if(v===(it.quien||''))return; it.quien=v; gHist(it,'Dueño / quién espera: '+(v||'—')); gSave(it); renderGest(); });
     var fecha=el('input'); fecha.type='date'; fecha.value=it.fecha||'';
     stableInput(fecha,function(){ return it.fecha; },function(v){ var old=it.fecha||'';
-      if(old&&v&&v>old){ it.reprog=(it.reprog||0)+1; gHist(it,'Reprogramada '+dm(old)+' → '+dm(v)); } else gHist(it,'Fecha: '+(v?dm(v):'sin fecha'));
+      if(okDate(old)&&old&&v&&v>old){ it.reprog=(it.reprog||0)+1; gHist(it,'Reprogramada '+dm(old)+' → '+dm(v)); } else gHist(it,'Fecha: '+(v?dm(v):'sin fecha'));
       it.fecha=v; gSave(it); calSync(it); gRefresh(); },okDate);
     var hora=el('input'); hora.type='time'; hora.value=it.hora||''; hora.placeholder='09:00';
     stableInput(hora,function(){ return it.hora; },function(v){ it.hora=v; gHist(it,'Hora: '+(v||'sin hora')); gSave(it); calSync(it); gRefresh(); },okTime);

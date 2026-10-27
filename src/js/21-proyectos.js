@@ -21,11 +21,11 @@
     var g=el('div','pofld');
     function inp(lbl,k,ph,full){ var l=el('label',full?'full':null,lbl), i=el('input'); i.value=p[k]||''; i.placeholder=ph||''; i.addEventListener('change',function(){ p[k]=i.value.trim(); pjSave(p); renderPj(); }); l.appendChild(i); g.appendChild(l); }
     inp('Próximo paso','prox','la acción concreta',true); inp('Quién','quien','');
-    var ld=el('label',null,'Fecha de decisión'), di=el('input'); di.type='date'; di.value=p.decision||''; di.addEventListener('change',function(){ if(p.decision&&di.value>p.decision)p.reprog=(p.reprog||0)+1; p.decision=di.value; pjSave(p); renderPj(); }); ld.appendChild(di); g.appendChild(ld);
+    var ld=el('label',null,'Fecha de decisión'), di=el('input'); di.type='date'; di.value=p.decision||''; stableInput(di,function(){ return p.decision; },function(v){ if(p.decision&&v&&v>p.decision)p.reprog=(p.reprog||0)+1; p.decision=v; pjSave(p); renderPj(); },okDate); ld.appendChild(di); g.appendChild(ld);
     var ls=el('label',null,'Estado'+(p.reprog?' · decisión movida '+p.reprog+'×':'')), ss=selOf(PJEST,est,'estsel'); ls.appendChild(ss); g.appendChild(ls);
     var msg=el('span','fmsg','');
     ss.addEventListener('change',function(){ var nf=pjAll().filter(function(x){ return x.est==='foco'&&x.id!==p.id; }); if(ss.value==='foco'&&nf.length>=PJTOPE){ ss.value=est; msg.style.color='var(--crit)'; msg.textContent='Ya hay '+PJTOPE+' en foco ('+nf.map(function(x){ return x.t; }).join(', ')+'): sacá uno primero.'; return; } p.est=ss.value; if(p.est==='cerrado')p.cerradoEn=nowIso(); pjSave(p); renderPj(); });
-    if(est==='espera'){ var lv=el('label',null,'Vuelve a revisarse el'), vi=el('input'); vi.type='date'; vi.value=p.vuelve||''; vi.addEventListener('change',function(){ p.vuelve=vi.value; pjSave(p); renderPj(); }); lv.appendChild(vi); g.appendChild(lv); }
+    if(est==='espera'){ var lv=el('label',null,'Vuelve a revisarse el'), vi=el('input'); vi.type='date'; vi.value=p.vuelve||''; stableInput(vi,function(){ return p.vuelve; },function(v){ p.vuelve=v; pjSave(p); renderPj(); },okDate); lv.appendChild(vi); g.appendChild(lv); }
     inp('Nota','nota','una línea',true);
     b.appendChild(g); b.appendChild(msg);
     // entregables

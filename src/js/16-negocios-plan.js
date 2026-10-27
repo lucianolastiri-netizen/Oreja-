@@ -16,7 +16,7 @@
     dl.appendChild(el('b',null,p.decision.que||'Definí qué se decide'));
     dl.appendChild(el('span','gm',p.decision.fecha?(dd<0?'Venció hace '+(-dd)+' d':(dd===0?'Vence hoy':'Faltan '+dd+' d'))+' · '+dm(p.decision.fecha):'Sin fecha: una idea sin fecha de decisión no se cierra'));
     dc.appendChild(dl);
-    var df=el('div','pofld'); var fi=el('input'); fi.type='date'; fi.value=p.decision.fecha||''; fi.addEventListener('change',function(){ p.decision.fecha=fi.value; save(); });
+    var df=el('div','pofld'); var fi=el('input'); fi.type='date'; fi.value=p.decision.fecha||''; stableInput(fi,function(){ return p.decision.fecha; },function(v){ p.decision.fecha=v; save(); },okDate);
     var qi=el('input'); qi.type='text'; qi.value=p.decision.que||''; qi.placeholder='qué se decide, en una línea'; qi.addEventListener('change',function(){ p.decision.que=qi.value.trim(); save(); });
     df.appendChild(poLabel('Fecha de decisión',fi)); df.appendChild(poLabel('Qué se decide',qi)); dc.appendChild(df);
     if(p.decision.nota) dc.appendChild(el('p','hint',p.decision.nota));

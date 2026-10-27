@@ -22,3 +22,6 @@
   .cvchips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
   .cvchip{font-family:var(--mono);font-size:10.5px;padding:3px 8px;border-radius:20px;border:1px solid var(--line-strong);color:var(--muted)}
   .cvchip.ok{border-color:var(--ok);color:var(--ok)} .cvchip.fallo{border-color:var(--crit);color:var(--crit)} .cvchip.parcial{border-color:var(--warn);color:var(--warn)}
+  .cvlrow{display:grid;grid-template-columns:22px minmax(0,1fr);gap:8px;padding:9px 0;border-top:1px solid var(--line);align-items:start}
+  .cvlrow input[type=checkbox]{margin-top:3px;width:18px;height:18px}
+  .cvltx{display:grid;gap:3px;min-width:0;overflow-wrap:anywhere}
